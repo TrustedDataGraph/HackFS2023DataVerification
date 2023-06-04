@@ -3,17 +3,24 @@ DataVerification and Reputation System
 
 ## Basic ideas
 
-```mermaid
-graph LR
-A[データ作成者] --> B[Web2 インターフェース]
-B --> C[データ検証]
-C --> D[ピアレビュー]
-D --> E[評判スコア]
-C --> F[データの品質管理]
-E --> G[報酬の計算]
-F --> G
-G --> H[報酬の提供]
 
+```mermaid
+
+graph LR
+    DataUploader((DataUploader)) -->|upload data| Web2Interface
+    Web2Interface -->|verify data| SmartContract(DataVerifier)
+    SmartContract -->|start verification| DataDAO
+    DataDAO -->|check and store hash and metadata| SmartContract
+    Web2Interface -->|upload data| IPFS
+    IPFS -.->|CID, hash| Web2Interface
+    SmartContract -->|Store verification result| DataDAO
+    SmartContract -.->|Notify result| Web2Interface
+    Web2Interface -.->|Notify verification result| DataUploader
+    Reviewer((Reviewer)) -->|Upload review| Web2Interface
+    Web2Interface -->|Store review result| SmartContract
+    SmartContract -->|Store review result| DataDAO
+    SmartContract -.->|notify reward| Web2Interface
+    Web2Interface -.->|notify reward| Reviewer
 ```
 
 ```mermaid
@@ -21,25 +28,25 @@ sequenceDiagram
 participant DataUploader 
 participant Reviewer 
 participant Web2Interface 
-participant SmartContract 
+participant SmartContract as DataVerifier
 participant IPFS 
 participant DataDAO 
 
-DataUploader ->> Web2Interface: データの投稿要求
-Web2Interface ->> SmartContract: データの検証要求
-SmartContract ->> DataDAO: データの検証開始
-DataDAO ->> SmartContract: データのハッシュとメタデータを保存
-SmartContract ->> IPFS: データのアップロード
-IPFS -->> SmartContract: データのハッシュ
-SmartContract -->> DataDAO: データの検証結果を保存
-SmartContract -->> Web2Interface: 検証結果の通知
-Web2Interface ->> DataUploader: 検証結果の表示
-DataUploader ->> Web2Interface: レビューの投稿要求
-Web2Interface -->> SmartContract: レビューの保存
-SmartContract -->> DataDAO: レビューの保存
-DataDAO ->> SmartContract: 評判スコアの更新
-SmartContract ->> Reviewer: 報酬の計算
-SmartContract ->> Reviewer: 報酬の提供
+DataUploader ->> Web2Interface: Upload Data
+Web2Interface ->> SmartContract: veiry Data
+SmartContract ->> DataDAO: start verification
+DataDAO ->> SmartContract: Store data hash and metadata
+Web2Interface ->> IPFS: upload data
+IPFS -->> Web2Interface: CID, hash
+SmartContract -->> DataDAO: Store verification result
+SmartContract -->> Web2Interface: notificy verification result
+Web2Interface ->> DataUploader: notifiy verification result
+Reviewer ->> Web2Interface: Upload review
+Web2Interface -->> SmartContract: Store review 
+SmartContract -->> DataDAO: Store review content
+DataDAO ->> SmartContract: update review Score
+SmartContract ->> Web2Interface: notify reward
+Web2Interface ->> Reviewer: notify reward
 
 ```
 
@@ -153,6 +160,12 @@ Validation by reviewers complements the first-level validation and allows for mo
 
 これらの検証結果は、データの信頼性や品質の向上に貢献し、データDAOの中でのデータの価値や優先度を決定するために活用されます。データDAO内での保存方法は、検証結果や評価指標をデータとして記録し、関連するデータと一緒に保存することが一般的です。
 
+
+## Sample Data DAO
+
+we use forked official sample Data DAO from filecoin project.
+
+https://github.com/kozayupapa/fevm-data-dao-kit
 
 
 <!-- 

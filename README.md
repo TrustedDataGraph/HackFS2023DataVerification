@@ -1,8 +1,8 @@
 # HackFS2023DataVerification/Repuration Extend for DataDAO
+
 DataVerification and Reputation System
 
 ## Basic ideas
-
 
 ```mermaid
 
@@ -25,12 +25,12 @@ graph LR
 
 ```mermaid
 sequenceDiagram
-participant DataUploader 
-participant Reviewer 
-participant Web2Interface 
+participant DataUploader
+participant Reviewer
+participant Web2Interface
 participant SmartContract as DataVerifier
-participant IPFS 
-participant DataDAO 
+participant IPFS
+participant DataDAO
 
 DataUploader ->> Web2Interface: Upload Data
 Web2Interface ->> SmartContract: veiry Data
@@ -42,7 +42,7 @@ SmartContract -->> DataDAO: Store verification result
 SmartContract -->> Web2Interface: notificy verification result
 Web2Interface ->> DataUploader: notifiy verification result
 Reviewer ->> Web2Interface: Upload review
-Web2Interface -->> SmartContract: Store review 
+Web2Interface -->> SmartContract: Store review
 SmartContract -->> DataDAO: Store review content
 DataDAO ->> SmartContract: update review Score
 SmartContract ->> Web2Interface: notify reward
@@ -108,8 +108,11 @@ erDiagram
 ```
 
 ## Data Verification
-### Step1:  Verification
+
+### Step1: Verification
+
 ---
+
 (EN)
 Validation requests for data are conducted to verify the reliability and validity of the data provided by the data submitter. Specifically, the following verifications are performed:
 
@@ -122,6 +125,7 @@ Validation requests for data are conducted to verify the reliability and validit
 These verifications are crucial to ensure the quality and reliability of the data. Validation requests are processed by smart contracts or related systems, and the validation results are communicated to the data submitter.
 
 ---
+
 (JP)
 データの検証要求は、データを投稿する人が提供したデータの信頼性と正当性を確認するために行われるものです。具体的には、以下のような検証です：
 
@@ -133,8 +137,10 @@ These verifications are crucial to ensure the quality and reliability of the dat
 
 これらの検証は、データの品質や信頼性を保証するために重要です。データの検証要求は、スマートコントラクトや関連するシステムによって処理され、検証結果がデータの投稿者に通知されます。
 
-### Step2:  Reputation
+### Step2: Reputation
+
 ---
+
 (EN)
 Validation by reviewers complements the first-level validation and allows for more detailed verification and assessment. Here are some examples of the aspects of validation by reviewers and the resulting outcomes:
 
@@ -147,19 +153,19 @@ Validation by reviewers complements the first-level validation and allows for mo
 4. Security verification of data: Reviewers evaluate the security and privacy aspects of the data, verifying the confidentiality and protection of personal information. Security-related verification results should be reflected in the access rights and security policies for the data, stored in the data
 
 ---
+
 (JP)
-レビューワーによる検証は、1次元検証を補完し、より詳細な検証や判断を行うことを意味します。以下に、レビューワーによる検証の観点とその結果についていくつかの例を示します。
+レビューワーによる検証は、1 次元検証を補完し、より詳細な検証や判断を行うことを意味します。以下に、レビューワーによる検証の観点とその結果についていくつかの例を示します。
 
-1. データの品質評価: レビューワーはデータの品質や精度を評価し、不正確な情報やエラーを特定します。結果として、データの品質スコアや信頼性レベルが評価され、データDAOに保存されるべきです。
+1. データの品質評価: レビューワーはデータの品質や精度を評価し、不正確な情報やエラーを特定します。結果として、データの品質スコアや信頼性レベルが評価され、データ DAO に保存されるべきです。
 
-2. データの信頼性の確認: レビューワーはデータのソースや信頼性を調査し、データの正当性を確認します。例えば、データが公式な情報源から取得されているか、信頼できるデータ提供者から提供されているかを検証します。検証結果はデータの信頼性スコアとして評価され、データDAOに保存されるべきです。
+2. データの信頼性の確認: レビューワーはデータのソースや信頼性を調査し、データの正当性を確認します。例えば、データが公式な情報源から取得されているか、信頼できるデータ提供者から提供されているかを検証します。検証結果はデータの信頼性スコアとして評価され、データ DAO に保存されるべきです。
 
-3. データのコンテキストの確認: レビューワーはデータの背景やコンテキストを理解し、適切な解釈を行います。例えば、データの特定の条件や制約、メタデータ情報などを検証します。検証結果はデータの解釈や使用方法の指針としてデータDAOに保存されるべきです。
+3. データのコンテキストの確認: レビューワーはデータの背景やコンテキストを理解し、適切な解釈を行います。例えば、データの特定の条件や制約、メタデータ情報などを検証します。検証結果はデータの解釈や使用方法の指針としてデータ DAO に保存されるべきです。
 
-4. データのセキュリティの確認: レビューワーはデータのセキュリティやプライバシーに関する観点を評価し、データの機密性や個人情報の保護について検証します。セキュリティに関する検証結果はデータのアクセス権やセキュリティポリシーの設定に反映され、データDAOに保存されるべきです。
+4. データのセキュリティの確認: レビューワーはデータのセキュリティやプライバシーに関する観点を評価し、データの機密性や個人情報の保護について検証します。セキュリティに関する検証結果はデータのアクセス権やセキュリティポリシーの設定に反映され、データ DAO に保存されるべきです。
 
-これらの検証結果は、データの信頼性や品質の向上に貢献し、データDAOの中でのデータの価値や優先度を決定するために活用されます。データDAO内での保存方法は、検証結果や評価指標をデータとして記録し、関連するデータと一緒に保存することが一般的です。
-
+これらの検証結果は、データの信頼性や品質の向上に貢献し、データ DAO の中でのデータの価値や優先度を決定するために活用されます。データ DAO 内での保存方法は、検証結果や評価指標をデータとして記録し、関連するデータと一緒に保存することが一般的です。
 
 ## Sample Data DAO
 
@@ -167,8 +173,7 @@ we use forked official sample Data DAO from filecoin project.
 
 https://github.com/kozayupapa/fevm-data-dao-kit
 
-
-<!-- 
+<!--
 
 
 ```mermaid

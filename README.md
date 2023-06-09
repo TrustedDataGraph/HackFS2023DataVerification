@@ -1,8 +1,26 @@
-# HackFS2023DataVerification/Repuration Extend for DataDAO
+# HackFS2023DataVerification  DataReviewDAO
 
-DataVerification and Reputation System
+Data Reputation System
 
-## Basic ideas
+## Proto#1
+1. Only review results can be saved
+2. authentication and read and display functions can be left for the next step.
+3. by adding DataDAO in between, it can be expanded to include a reward system based on review ratings, or to cover the cost of data storage with a donation
+
+```mermaid 
+graph LR
+    Reviewer((Reviewer:webront)) -->|Upload review| web_backend
+    web_backend -->|Store, get temporary url| Lighthouse.storage
+    web_backend -->|Store url| reviewDAO
+    reviewDAO -->|emit new review url| web3_Event
+    web3_Event -.->|notify new review| web_backend
+    web_backend -->|upload | Esturay_Edge/Delta
+    Esturay_Edge/Delta -->|Deal request| Filecoin
+
+```
+
+## Original Basic ideas
+
 
 ```mermaid
 

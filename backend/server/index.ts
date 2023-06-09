@@ -8,6 +8,7 @@ import connectDB from "./db/connect";
 
 //get routes
 import testrouter from "./routes/testRoute";
+import reviewrouter from "./routes/reviewRoute";
 
 //error handler
 import notFoundMiddleware from "./middleware/not-found";
@@ -30,6 +31,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 //routes
 app.use("/api/v1/test", testrouter);
+app.use("/api/v1/review", reviewrouter);
 
 //error middlewares
 app.use(notFoundMiddleware);

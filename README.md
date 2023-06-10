@@ -2,7 +2,7 @@
 
 Data Reputation System
 
-## Proto#1
+## PoC#1
 1. Only review results can be saved
 2. authentication and read and display functions can be left for the next step.
 3. by adding DataDAO in between, it can be expanded to include a reward system based on review ratings, or to cover the cost of data storage with a donation
@@ -18,6 +18,27 @@ graph LR
     Esturay_Edge/Delta -.->|stored info/cid| web_backend
     web_backend -->|updateCid | reviewDAO
     Esturay_Edge/Delta -->|Deal request| Filecoin
+
+```
+## PoC#2
+1. show data list
+2. relate data and review
+3. show data with review count, review list
+
+```mermaid 
+graph LR
+    web_backend -->|0.Store, get DataList,cid,url| LagrangeDao
+    Reviewer((Reviewer:webront)) -->|1.get Data| web_backend
+    Reviewer((Reviewer:webront)) -->|2.Upload review| web_backend
+    web_backend -->|3.Store, get temporary url| Lighthouse.storage
+    Reviewer -->|4.Store url| reviewDAO
+    reviewDAO -->|5.emit new review url| web3_Event
+    web3_Event -.->|6. notify new review| web_backend
+    web_backend -->|7. upload | Esturay_Edge/Delta
+    Esturay_Edge/Delta -.->|8. stored info/cid| web_backend
+    web_backend -->|9. updateCid | reviewDAO
+    Esturay_Edge/Delta -->|10. Deal request| Filecoin
+    linkStyle 0,1,8 stroke:#ff0000,stroke-width:4px
 
 ```
 

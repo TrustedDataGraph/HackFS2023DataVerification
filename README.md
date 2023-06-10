@@ -19,6 +19,12 @@ graph LR
 
 ```
 
+## Setup & install
+please refer following each README for development
+* [Rront:webap](./Frontend/)
+* [backend:server](./backend/README.md)
+* [review-dao:smart contract](./review-dao/README.md)
+
 ## Original Basic ideas
 
 

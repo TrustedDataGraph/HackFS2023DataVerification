@@ -1,3 +1,13 @@
 PORT=4000
 MONGO_URI=mongodb://127.0.0.1
 WEB3STORAGE_TOKEN=
+
+#setting for store monitor worker, set env and uncomment RUN_MONITOR
+#RUN_MONITOR=true
+PRIVATE_KEY=
+rpcEndpoint = http://127.0.0.1:1234/rpc/v1
+chainId=31415926
+contractAddress = 
+#Estuary API key
+apiEndpoint = https://hackfs-coeus.estuary.tech/edge/api/v1
+API_KEY = 

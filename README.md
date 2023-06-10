@@ -15,6 +15,8 @@ graph LR
     reviewDAO -->|emit new review url| web3_Event
     web3_Event -.->|notify new review| web_backend
     web_backend -->|upload | Esturay_Edge/Delta
+    Esturay_Edge/Delta -.->|stored info/cid| web_backend
+    web_backend -->|updateCid | reviewDAO
     Esturay_Edge/Delta -->|Deal request| Filecoin
 
 ```

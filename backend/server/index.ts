@@ -6,10 +6,10 @@ const app: Express = express();
 
 import connectDB from "./db/connect";
 
-const {Worker} = require('worker_threads')
-new Worker(__dirname + '/worker/index.js')
-
-
+if(Boolean(process.env.RUN_MONITOR)){
+  const {Worker} = require('worker_threads')
+  new Worker(__dirname + '/worker/index.js');
+}
 //get routes
 import testrouter from "./routes/testRoute";
 import reviewrouter from "./routes/reviewRoute";

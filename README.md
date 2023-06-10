@@ -11,7 +11,7 @@ Data Reputation System
 graph LR
     Reviewer((Reviewer:webront)) -->|Upload review| web_backend
     web_backend -->|Store, get temporary url| Lighthouse.storage
-    web_backend -->|Store url| reviewDAO
+    Reviewer -->|Store url| reviewDAO
     reviewDAO -->|emit new review url| web3_Event
     web3_Event -.->|notify new review| web_backend
     web_backend -->|upload | Esturay_Edge/Delta

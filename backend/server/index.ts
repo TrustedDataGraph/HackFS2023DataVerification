@@ -6,12 +6,12 @@ const app: Express = express();
 
 import connectDB from "./db/connect";
 
-if(Boolean(process.env.RUN_MONITOR)){
-  const {Worker} = require('worker_threads')
-  new Worker(__dirname + '/worker/index.js');
+if (Boolean(process.env.RUN_MONITOR)) {
+  const { Worker } = require("worker_threads");
+  new Worker(__dirname + "/worker/index.js");
 }
 //get routes
-import testrouter from "./routes/testRoute";
+import dataOneRouter from "./routes/dataOne";
 import reviewrouter from "./routes/reviewRoute";
 
 //error handler
@@ -34,7 +34,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Data graph is set");
 });
 //routes
-app.use("/api/v1/test", testrouter);
+app.use("/api/v1/dataOne", dataOneRouter);
 app.use("/api/v1/review", reviewrouter);
 
 //error middlewares

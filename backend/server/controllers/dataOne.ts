@@ -1,18 +1,18 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import testmodel from "../models/testmodel";
+import Data from "../models/data1Model";
 
 // get users
-export const testController = async (
+export const getDataOne = async (
   req: express.Request,
   res: express.Response
 ) => {
   try {
     // get users
-    const tests = await testmodel.find({});
+    const dataOne = await Data.find({});
 
     res.status(StatusCodes.OK).json({
-      tests,
+      dataOne,
     });
   } catch (error) {
     // throw error

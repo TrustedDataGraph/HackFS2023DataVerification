@@ -2,17 +2,29 @@ import mongoose from "mongoose";
 
 const dataSetSchema = new mongoose.Schema(
   {
-    dataCid: {
+    slug: {
       type: String,
-      required: [true, "Please provide CID"],
+      required: [true, "Please provide slug"],
     },
-    file_name: {
-      type: String,
-      required: [true, "Please file name"],
+    eligible_data_size: {
+      type: Number,
+      required: [true, "Please file data size"],
     },
-    storage_providers: {
+    elegible_deal_count: {
+      type: Number,
+      required: [true, "Please deal count"],
+    },
+    miner_list: {
       type: [String],
-      required: [true, "Please storage providers"],
+      required: [true, "Please miner list"],
+    },
+    locations_stored: {
+      type: [String],
+      required: [true, "Please enter location stored"],
+    },
+    rank: {
+      type: Number,
+      required: [true, "Please enter rank"],
     },
     // createdBy: {
     //   type: mongoose.Types.ObjectId,

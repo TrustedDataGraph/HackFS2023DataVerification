@@ -14,6 +14,7 @@ if (Boolean(process.env.RUN_MONITOR)) {
 import dataOneRouter from "./routes/dataOne";
 import reviewrouter from "./routes/reviewRoutes";
 import datasetRouter from "./routes/dataSetRoutes";
+import dataListRouter from "./routes/dataListRoutes";
 
 //error handler
 import notFoundMiddleware from "./middleware/not-found";
@@ -38,6 +39,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/dataOne", dataOneRouter);
 app.use("/api/v1/review", reviewrouter);
 app.use("/api/v1/dataset", datasetRouter);
+app.use("/api/v1/datalist", dataListRouter);
 
 //error middlewares
 app.use(notFoundMiddleware);

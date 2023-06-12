@@ -2,13 +2,13 @@ import express from "express";
 import { StatusCodes } from "http-status-codes";
 import Data from "../models/data1Model";
 
-// get users
+// get data
 export const getDataOne = async (
   req: express.Request,
   res: express.Response
 ) => {
   try {
-    // get users
+    // get data
     const dataOne = await Data.find({});
 
     res.status(StatusCodes.OK).json({

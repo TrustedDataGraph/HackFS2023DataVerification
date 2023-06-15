@@ -4,7 +4,7 @@ import { VerificationList } from "./features/verificationList";
 
 export function DataActivities() {
   return (
-    <div className="h-full w-full flex flex-col gap-10">
+    <div className="h-full w-full flex flex-col ">
       <Header />
       <main className="w-full h-[90%]">
         <DataSummary />

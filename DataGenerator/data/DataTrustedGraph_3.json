@@ -1,0 +1,15 @@
+{
+  "project_id": "61fe7a2c740f1aac5ffe6f8c",
+  "deal_id": "7067927",
+  "deal_start_epoch": 1887682,
+  "miner_id": "f0838684",
+  "payload_cid": "bafykbzacebqoswew25mt37fw44kc5rc46pkuw7euanreby24by7a6rbc45oog",
+  "data_size": 34359738368,
+  "filename": "train663.tar",
+  "file_format": ".tar",
+  "curated_dataset": "Open Images Dataset",
+  "location": "CZ",
+  "phase": "2.8",
+  "miner_peer": "12D3KooWLxthSNyYBzgvqjZ8dbPnybTQqeq45nNCdnMqXj3Dq86a",
+  "miner_multi_addrs": "/ip4/82.208.52.157/tcp/24001 /ip4/185.14.234.118/tcp/24001 "
+}

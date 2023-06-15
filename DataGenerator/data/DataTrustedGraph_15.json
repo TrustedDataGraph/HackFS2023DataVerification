@@ -1,0 +1,15 @@
+{
+  "project_id": "62340a567d907fffc878620d",
+  "deal_id": "7622458",
+  "deal_start_epoch": 1940574,
+  "miner_id": "f03223",
+  "payload_cid": "bafybeigcvbyfahjcfgfpdim7i7bokqvbaykrwgqyw637ey6xdbeidutmzy",
+  "data_size": 34359738368,
+  "filename": "TFDS-main-16808",
+  "file_format": ".folder",
+  "curated_dataset": "TerraFusion",
+  "location": "US",
+  "phase": "2.8",
+  "miner_peer": "12D3KooWPGM5Ub5Zhm3zhrzbbbcUZZJc2aw4tRmWTRzsuW3esUW7",
+  "miner_multi_addrs": "/ip4/159.65.189.52/tcp/64561 "
+}

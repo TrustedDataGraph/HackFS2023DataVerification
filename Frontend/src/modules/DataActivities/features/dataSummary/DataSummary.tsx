@@ -1,23 +1,58 @@
-export const DataSummary = () => {
+import { useState, useEffect } from "react";
+
+interface IProps {
+  data: any;
+}
+export const DataSummary = ({ data }: IProps) => {
+  const [link, setLink] = useState("");
+
+  const formatBytes = (bytes: number, decimals = 2) => {
+    if (!+bytes) return "0 Bytes";
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = [
+      "Bytes",
+      "KiB",
+      "MiB",
+      "GiB",
+      "TiB",
+      "PiB",
+      "EiB",
+      "ZiB",
+      "YiB",
+    ];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  };
+
+  useEffect(() => {
+    if (data.source.toUpperCase() == "FILECOIN") {
+      // setLink(
+      //   `http://34.66.50.93/ipfs/${payload_cid}?format=car&protocols=graphsync&providers=${miner_multi_addr}/p2p/${miner_peer}`
+      // );
+    }
+  }, [data]);
+
   return (
     <div className="h-[60%] w-full  ">
       <h2 className="font-bold text-5xl h-[15%] pt-3"> Explore Datasets</h2>
       <div className="h-[85%]">
-        <p className="text-xl py-6">
-          The Encyclopedia of DNA Elements (ENCODE) Consortium is an
-          international collaboration of research groups funded by the National
-          Human Genome Research Institute (NHGRI).
-        </p>
+        <p className="text-xl py-6">{data.description}</p>
 
         <div className="w-full lg:w-[50%] flex gap-6">
           <div className="w-[50%]">
             <div className="flex py-2">
               <div className="w-[70%] font-bold text-lg">Size</div>
-              <div className="w-[30%] text-lg">2.62 PiB</div>
+              <div className="w-[30%] text-lg">
+                {formatBytes(data.dataset_size)}
+              </div>
             </div>
             <div className=" flex py-2">
               <div className="w-[70%] font-bold text-lg">File type</div>
-              <div className="w-[30%] text-lg">.tar</div>
+              <div className="w-[30%] text-lg">{data.file_format}</div>
             </div>
             <div className=" flex py-2">
               <div className="w-[70%] font-bold text-lg">Storage providers</div>

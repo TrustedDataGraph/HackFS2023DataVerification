@@ -1,23 +1,31 @@
-import { ethers } from "ethers";
+import { ethers, Contract, Provider } from "ethers";
+import DatasetAbi from "@abi/Dataset.json";
 
 //@ts-ignore
-export const Connector = async () => {
+let provider: Provider;
+
+//@ts-ignore
+export const ConnectToWeb3 = async (tokenId: number) => {
   // A Web3Provider wraps a standard Web3 provider, which is
   // what MetaMask injects as window.ethereum into each page
-  var urlInfo = {
-    url: "https://nd-142-415-280.p2pify.com/rpc/v1",
-    user: "stupefied-dijkstra",
-    password: "slang-dealer-xerox-karate-moody-item",
-  };
-  const NETWORK_ID = 314159;
+  const url =
+    "https://stupefied-dijkstra:slang-dealer-xerox-karate-moody-item@nd-142-415-280.p2pify.com/rpc/v1";
+  provider = new ethers.JsonRpcProvider(url);
+};
 
-  const provider = new ethers.providers.JsonRpcProvider(urlInfo, NETWORK_ID);
+export const getDataset = async (tokenId: number) => {
+  await ConnectToWeb3(tokenId);
 
-  // MetaMask requires requesting permission to connect users accounts
-  //await provider.send("eth_requestAccounts", []);
+  // Create a contract
 
-  // The MetaMask plugin also allows signing transactions to
-  // send ether and pay to change state within the blockchain.
+  const contract = await new Contract(
+    "0x09Ec1581C9eE71A03cfc1BFD8264ea729736a873",
+    [...DatasetAbi],
+    provider
+  );
 
-  const signer = await provider.getSigner();
+  //token uri
+  // const tokenUri = await contract.tokenUri(tokenId);
+
+  await contract.getFunction("tokenUri").call(null);
 };

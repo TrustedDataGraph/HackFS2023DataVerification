@@ -9,6 +9,7 @@
     "paths":{
       "@modules/*":["src/modules/*"],
       "@assets/*":["src/assets/*"],
+      "@abi/*":["src/abis/*"],
     },
 
     /* Bundler mode */

@@ -5,14 +5,8 @@ import { Home } from "@modules/Home";
 import { Dataset } from "@modules/Dataset";
 import { DataActivities } from "@modules/DataActivities";
 import { Reviewer } from "@modules/Reviewer";
-import { ethers } from "ethers";
 
 function App() {
-  const provider = new ethers.JsonRpcProvider(
-    "https://stupefied-dijkstra:slang-dealer-xerox-karate-moody-item@nd-142-415-280.p2pify.com/rpc/v1",
-    314159
-  );
-  console.log(provider.getSigner());
   return (
     <div className=" h-screen px-8 py-2 ">
       <Toaster position="top-right" reverseOrder={false} />

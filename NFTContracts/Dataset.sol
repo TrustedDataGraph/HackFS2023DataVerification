@@ -11,12 +11,12 @@ contract Dataset is ERC721URIStorage{
 
     constructor() ERC721("DataTrustedGraph Dataset", "DTGD") {}
 
-    function issueReviewer(address reviewer, string memory tokenURI)
+    function mintDataset(string memory tokenURI)
         public
         returns (uint256)
     {
         uint256 newDatasetId = _tokenIds.current();
-        _mint(reviewer, newDatasetId);
+        _mint(msg.sender, newDatasetId);
         _setTokenURI(newDatasetId, tokenURI);
 
         _tokenIds.increment();

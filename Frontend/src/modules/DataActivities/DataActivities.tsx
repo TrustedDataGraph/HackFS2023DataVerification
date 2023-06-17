@@ -59,7 +59,7 @@ export function DataActivities() {
                     </div>
                 </div>
                 <div className={`w-full text-center p-2 ${activeTab === 'review' ? 'bg-gray-white' : 'hidden'}`}>
-                  <VerificationList />
+                  <VerificationList data={data} datasetid={Number(id)}/>
                 </div>
                 <div className={`w-full text-center p-2 ${activeTab === 'file' ? 'bg-gray-white' : 'hidden'}`}>
                   <FileList data={data} />

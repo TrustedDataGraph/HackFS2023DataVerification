@@ -85,6 +85,22 @@ contract Report is ERC721URIStorage, Owner {
         return result;
     }
 
+    function getReviewer(uint256 reportId)
+        external
+        view
+        returns (uint256)
+    {
+        return _reviewerMapping[reportId];
+    }
+
+    function getDataset(uint256 reportId)
+        external
+        view
+        returns (uint256)
+    {
+        return _datasetMapping[reportId];
+    }
+
     function _reviewerOwnsReviewerNFT(uint256 reviewerId)
         private
         view
@@ -93,5 +109,3 @@ contract Report is ERC721URIStorage, Owner {
         return (reviewerNFTContract.ownerOf(reviewerId) == msg.sender);
     }
 }
-
-

@@ -16,6 +16,8 @@ interface IProps {
 export const VerificationList = ({ data, datasetid }: IProps) => {
   const [dataList, setDataList] = useState<any>([]);
   const [idList, setIdList] = useState<number[]>([]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   //console.log(datasetid);
   const getData = async () => {
     try {
@@ -28,13 +30,15 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
         const reportId = Number(ids[i]);
         const uri = await getReport(reportId);
         const revId = Number(await getReportReviewer(reportId));
-        const reviewer = await getReviewerInfo(revId); 
-        data.push({ uri, reviewer, reviewerId: revId }); 
+        const reviewer = await getReviewerInfo(revId);
+        data.push({ uri, reviewer, reviewerId: revId });
       }
       //console.log(data);
       setDataList(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -42,17 +46,17 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   }, [data]);
 
   return (
-    <div className="h-[40%] w-full lg:w-full  pt-4 py-2 px-4 rounded-lg">
+    <div className="h-[40%] w-full lg:w-[80%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
         {/* // {idList.map((id, idx) => (
         //   <ReviewDisplayList key={idx} reviewId={id} />
         // ))} */}
-        {dataList.length == 0 && (
+        {isLoading && (
           <li className="text-md font-bold text-center mt-10">
-            Loading Files...
+            Loading Reports...
           </li>
         )}
-        {dataList.length > 0 &&
+        {!isLoading &&
           dataList.map((item: any, idx: any) => (
             <li key={idx} className="flex space-x-4">
               <div className="w[10%] text-lg">{idx + 1}.</div>
@@ -62,7 +66,9 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
               </div>
               <div className="w-[25%] text-sm flex justify-between items-center">
                 <small className="text-sm text-linkBlue font-semibold  underline">
-                  <a href={item.uri} target="_blank" rel="noopener noreferrer">View Report</a>
+                  <a href={item.uri} target="_blank" rel="noopener noreferrer">
+                    View Report
+                  </a>
                 </small>
                 <small className="text-sm text-linkBlue font-semibold  underline">
                   <Link to={`/reviewer/${item.reviewerId}`}>

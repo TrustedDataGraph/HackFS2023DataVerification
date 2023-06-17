@@ -4,6 +4,7 @@ import { Home } from "@modules/Home";
 import { Dataset } from "@modules/Dataset";
 import { DataActivities } from "@modules/DataActivities";
 import { Reviewer } from "@modules/Reviewer";
+import { ReportSubmission } from "@modules/ReportSubmission";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/dataset/:id" element={<DataActivities />} />
         <Route path="/reviewer/:id" element={<Reviewer />} />
+        <Route path="/report/:id" element={<ReportSubmission />} />
       </Routes>
     </div>
   );

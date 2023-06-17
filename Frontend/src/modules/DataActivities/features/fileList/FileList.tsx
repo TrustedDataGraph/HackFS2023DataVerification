@@ -9,12 +9,15 @@ interface IProps {
 }
 export const FileList = ({ data }: IProps) => {
   const [dataList, setDataList] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getData = async () => {
     try {
       setDataList(data.files);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -44,7 +47,7 @@ export const FileList = ({ data }: IProps) => {
   }, []);
 
   return (
-    <div className="h-[40%] w-full pt-4 py-2 px-4 rounded-lg ">
+    <div className="h-[40%] w-full lg:w-[80%]  border-2 border-black pt-4 py-2 px-4 rounded-lg ">
       <section className="h-[90%] w-full  px-2">
         <div className="flex text-md lg:text-2xl ">
           <div className="font-bold  w-[10%]  px-2">Logo</div>
@@ -53,13 +56,13 @@ export const FileList = ({ data }: IProps) => {
           <div className="font-bold  w-[15%] px-2">DealID</div>
           <div className="font-bold  w-[20%] px-2">link</div>
         </div>
-        {dataList.length == 0 && (
+        {isLoading && (
           <div className="text-md font-bold text-center mt-10">
             Loading Files...
           </div>
         )}
 
-        {dataList.length > 0 &&
+        {!isLoading &&
           dataList.map((item: any, idx: any) => (
             <div
               key={idx}

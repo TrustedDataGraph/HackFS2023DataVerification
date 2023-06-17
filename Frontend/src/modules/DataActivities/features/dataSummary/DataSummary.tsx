@@ -28,14 +28,6 @@ export const DataSummary = ({ data }: IProps) => {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
   };
 
-  useEffect(() => {
-    if (data.source.toUpperCase() == "FILECOIN") {
-      // setLink(
-      //   `http://34.66.50.93/ipfs/${payload_cid}?format=car&protocols=graphsync&providers=${miner_multi_addr}/p2p/${miner_peer}`
-      // );
-    }
-  }, [data]);
-
   return (
     <div className="h-[60%] w-full  ">
       <h2 className="font-bold text-5xl h-[15%] pt-3"> Explore Datasets</h2>
@@ -67,7 +59,7 @@ export const DataSummary = ({ data }: IProps) => {
           </div>
           <div className="w-[30%]">
             <button className="bg-primaryLight rounded-lg text-2xl font-bold h-full px-3">
-              Access the Data
+              Show Report of Verifier(TBD)
             </button>
           </div>
         </div>

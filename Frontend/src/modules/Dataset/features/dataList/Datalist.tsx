@@ -4,24 +4,24 @@ import icon1 from "@assets/images/icon1.png";
 import icon2 from "@assets/images/icon2.png";
 import { Link } from "react-router-dom";
 import { getDataset } from "@modules/Shared/Services";
-import { Dataset } from "@modules/Dataset";
 
 export const Datalist = () => {
   const [dataList, setDataList] = useState<any>([]);
 
+  const fetchDatasetInfo = async (tokenId: number ) => {
+    const data = await getDataset(tokenId);
+    const res = await fetch(data[0]);
+    return await res.json();
+  }
   const getData = async () => {
-    let data1 = await getDataset(1);
-    let data2 = await getDataset(2);
-    //let data3 = await getDataset(3);
-    console.log();
-
     try {
-      let res1 = await fetch(data1[0]);
-      let res2 = await fetch(data2[0]);
-      let info1 = await res1.json();
-      let info2 = await res2.json();
-      setDataList([info1, info2]);
-      console.log(info1);
+      const data = [];
+      for (let i=0; i<3; i++){
+        const info = await fetchDatasetInfo(i);
+        //console.log(info)
+        data.push(info);
+      }
+      setDataList(data);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +71,7 @@ export const Datalist = () => {
 
         {dataList.length > 0 &&
           dataList.map((item: any, idx: any) => (
-            <Link to={`/dataset/${idx + 1}`} key={idx}>
+            <Link to={`/dataset/${idx}`} key={idx}>
               <div className="flex min-w-[1200px] text-md my-4 border-2 border-gray-300 py-5 cursor-pointer hover:shadow-md  shadow-black">
                 <div className="  w-[10%]  px-2">
                   <img src={listIcon} />

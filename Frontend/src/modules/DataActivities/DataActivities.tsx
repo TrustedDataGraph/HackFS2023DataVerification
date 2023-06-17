@@ -41,25 +41,25 @@ export function DataActivities() {
         )}
         {Object.keys(data).length > 0 && (
           <>
-            <DataSummary data={data} />
+            <DataSummary data={data} datasetid={Number(id)} />
 
             <div>
               <div className="flex mb-4">
                 <div
-                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
+                  className={`w-1/5 h-8 text-xl  items-center text-center cursor-pointer  ${
                     activeTab === "review" ? "bg-gray-200" : ""
                   }`}
                   onClick={() => setActiveTab("review")}
                 >
-                  Reviews
+                  <span>Reviews</span>
                 </div>
                 <div
-                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
+                  className={`w-1/5 h-8 text-xl text-center cursor-pointer ${
                     activeTab === "file" ? "bg-gray-200 " : ""
                   }`}
                   onClick={() => setActiveTab("file")}
                 >
-                  Files
+                  <span>Files</span>
                 </div>
               </div>
               <div

@@ -19,6 +19,8 @@ interface IProps {
 export const VerificationList = ({ data, datasetid }: IProps) => {
   const [dataList, setDataList] = useState<any>([]);
   const [idList, setIdList] = useState<number[]>([]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   //console.log(datasetid);
   const getData = async () => {
     try {
@@ -37,8 +39,10 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
       }
       //console.log(data);
       setDataList(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -46,17 +50,17 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   }, []);
 
   return (
-    <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
+    <div className="h-[40%] w-full lg:w-[80%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
         {/* // {idList.map((id, idx) => (
         //   <ReviewDisplayList key={idx} reviewId={id} />
         // ))} */}
-        {dataList.length == 0 && (
+        {isLoading && (
           <li className="text-md font-bold text-center mt-10">
-            Loading Files...
+            Loading Reports...
           </li>
         )}
-        {dataList.length > 0 &&
+        {!isLoading &&
           dataList.map((item: any, idx: any) => (
             <li key={idx} className="flex space-x-4">
               <div className="w[10%] text-lg">{idx + 1}.</div>

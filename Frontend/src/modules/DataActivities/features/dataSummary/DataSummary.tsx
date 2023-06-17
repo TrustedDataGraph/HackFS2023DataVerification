@@ -1,10 +1,18 @@
+import { Link } from "react-router-dom";
+
 interface IData {
   name: string;
   description: string;
   dataset_size: number;
   file_format: string;
 }
-export const DataSummary = ({ data }: { data: IData }) => {
+export const DataSummary = ({
+  data,
+  datasetid,
+}: {
+  data: IData;
+  datasetid: number;
+}) => {
   const formatBytes = (bytes: number, decimals = 2) => {
     if (!+bytes) return "0 Bytes";
 
@@ -33,7 +41,7 @@ export const DataSummary = ({ data }: { data: IData }) => {
       <div className="h-[85%]">
         <p className="text-xl py-6">{data.description}</p>
 
-        <div className="w-full lg:w-[50%] flex gap-6">
+        <div className="w-full lg:w-[80%] flex gap-6">
           <div className="w-[50%]">
             <div className="flex py-2">
               <div className="w-[70%] font-bold text-lg">Size</div>
@@ -51,15 +59,20 @@ export const DataSummary = ({ data }: { data: IData }) => {
             </div>
           </div>
           <div className="w-[20%] border-2 border-black rounded-lg flex flex-col justify-center items-center">
-            <small className="text-textGreen text-3 font-semibold">
+            <small className="text-textGreen text-center text-3 font-semibold">
               Data Accuracy Score
             </small>
             <p className="text-2xl font-bold">9/10</p>
           </div>
-          <div className="w-[30%]">
-            <button className="bg-primaryLight rounded-lg text-2xl font-bold h-full px-3">
-              Show Report of Verifier(TBD)
+          <div className="w-[30%] flex gap-4">
+            <button className=" text-center rounded-lg text-2xl font-bold h-full w-[50%]">
+              {/* Show Report of Verifier(TBD) */}
             </button>
+            <Link to={`/report/${datasetid}`} className=" w-[50%]">
+              <button className="bg-uploadLight text-center rounded-lg text-2xl font-bold h-full">
+                Submit A Report
+              </button>
+            </Link>
           </div>
         </div>
       </div>

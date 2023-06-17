@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 interface IData {
   name: string;
   description: string;
@@ -7,8 +5,6 @@ interface IData {
   file_format: string;
 }
 export const DataSummary = ({ data }: { data: IData }) => {
-  const [link, setLink] = useState("");
-
   const formatBytes = (bytes: number, decimals = 2) => {
     if (!+bytes) return "0 Bytes";
 

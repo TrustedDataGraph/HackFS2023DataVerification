@@ -10,12 +10,10 @@ export function DataActivities() {
   let { id } = useParams();
 
   const [data, setData] = useState<any>({});
-  const [activeTab, setActiveTab] = useState('review');
+  const [activeTab, setActiveTab] = useState("review");
 
   const getData = async () => {
     let data1 = await getDataset(Number(id));
-
-    console.log();
 
     try {
       let res1 = await fetch(data1[0]);
@@ -46,24 +44,38 @@ export function DataActivities() {
             <DataSummary data={data} />
 
             <div>
-                <div className="flex mb-4">
-                    <div 
-                        className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${activeTab === 'review' ? 'bg-gray-white' : 'bg-gray-200'}`}
-                        onClick={() => setActiveTab('review')}>
-                        Reviews
-                    </div>
-                    <div 
-                        className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${activeTab === 'file' ? 'bg-gray-white' : 'bg-gray-200'}`}
-                        onClick={() => setActiveTab('file')}>
-                        Files
-                    </div>
+              <div className="flex mb-4">
+                <div
+                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
+                    activeTab === "review" ? "bg-gray-200" : ""
+                  }`}
+                  onClick={() => setActiveTab("review")}
+                >
+                  Reviews
                 </div>
-                <div className={`w-full text-center p-2 ${activeTab === 'review' ? 'bg-gray-white' : 'hidden'}`}>
-                  <VerificationList data={data} datasetid={Number(id)}/>
+                <div
+                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
+                    activeTab === "file" ? "bg-gray-200 " : ""
+                  }`}
+                  onClick={() => setActiveTab("file")}
+                >
+                  Files
                 </div>
-                <div className={`w-full text-center p-2 ${activeTab === 'file' ? 'bg-gray-white' : 'hidden'}`}>
-                  <FileList data={data} />
-                </div>
+              </div>
+              <div
+                className={`w-full text-center p-2 ${
+                  activeTab === "review" ? "bg-gray-white" : "hidden"
+                }`}
+              >
+                <VerificationList data={data} datasetid={Number(id)} />
+              </div>
+              <div
+                className={`w-full text-center p-2 ${
+                  activeTab === "file" ? "bg-gray-white" : "hidden"
+                }`}
+              >
+                <FileList data={data} />
+              </div>
             </div>
           </>
         )}

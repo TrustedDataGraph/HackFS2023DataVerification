@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/dataset/:id" element={<DataActivities />} />
-        <Route path="/reviewer" element={<Reviewer />} />
+        <Route path="/reviewer/:id" element={<Reviewer />} />
       </Routes>
     </div>
   );

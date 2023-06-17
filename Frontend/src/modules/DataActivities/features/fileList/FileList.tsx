@@ -12,7 +12,7 @@ export const FileList = ({ data }: IProps) => {
 
   const getData = async () => {
     try {
-      setDataList(data.files)
+      setDataList(data.files);
     } catch (error) {
       console.log(error);
     }
@@ -44,8 +44,8 @@ export const FileList = ({ data }: IProps) => {
   }, []);
 
   return (
-    <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
-      <section className="h-[90%] w-full overflow-auto px-2">
+    <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg ">
+      <section className="h-[90%] w-full  px-2">
         <div className="flex text-md lg:text-2xl ">
           <div className="font-bold  w-[10%]  px-2">Logo</div>
           <div className="font-bold  w-[40%] px-2">file Name</div>
@@ -61,7 +61,10 @@ export const FileList = ({ data }: IProps) => {
 
         {dataList.length > 0 &&
           dataList.map((item: any, idx: any) => (
-            <div key={idx} className="flex text-md my-4 border-2 border-gray-300 py-5 cursor-pointer hover:shadow-md  shadow-black">
+            <div
+              key={idx}
+              className="flex text-md my-4 border-2 border-gray-300 py-5 cursor-pointer hover:shadow-md  shadow-black"
+            >
               <div className="  w-[10%]  px-2">
                 <img src={listIcon} />
               </div>
@@ -72,14 +75,22 @@ export const FileList = ({ data }: IProps) => {
                 {formatBytes(item.data_size)}
               </div>
               <div className="text-lg flex items-center  w-[15%] px-2">
-                {item.source=="Filecoin" ? item.deal_id : "--"}
+                {item.source == "Filecoin" ? item.deal_id : "--"}
               </div>
               <div className=" text-lg flex space-x-2 overflow-x-auto items-center w-[20%]  px-2">
-                <a href={
-                  item.source=="Filecoin" ?
-                  `http://34.66.50.93/ipfs/${item.payload_cid}?format=car&protocols=graphsync&providers=${item.miner_multi_addrs.split(' ')[0]}/p2p/${item.miner_peer}` :
-                  `http://34.66.50.93/ipfs/${item.payload_cid}?format=car`
-                }>Download</a>
+                <a
+                  href={
+                    item.source == "Filecoin"
+                      ? `http://34.66.50.93/ipfs/${
+                          item.payload_cid
+                        }?format=car&protocols=graphsync&providers=${
+                          item.miner_multi_addrs.split(" ")[0]
+                        }/p2p/${item.miner_peer}`
+                      : `http://34.66.50.93/ipfs/${item.payload_cid}?format=car`
+                  }
+                >
+                  Download
+                </a>
               </div>
             </div>
           ))}

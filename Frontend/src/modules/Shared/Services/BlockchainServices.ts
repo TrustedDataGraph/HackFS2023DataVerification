@@ -52,15 +52,6 @@ export const getReviewerReports = async (tokenId: number) => {
   return reports;
 };
 
-const reviewerReportInfoCash = new Map();
-export const getReviewerReportInfo = async (tokenId: number) => {
-  if (reviwerInfoCash.get(tokenId)) return reviewerReportInfoCash.get(tokenId);
-  const reports = await getReviewerReports(tokenId);
-  // const res = await fetch(tokenUri[0]);
-  // const ret =  await res.json();
-  reviewerReportInfoCash.set(tokenId, reports);
-  return reports;
-};
 
 export const getReportsByDataset = async (datasetId: number) => {
   const reportIds = await ReportContract.functions.getReportsByDataset(

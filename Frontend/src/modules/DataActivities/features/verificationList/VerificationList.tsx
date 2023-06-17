@@ -27,20 +27,12 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
       setIdList([Number(ids)]);
 
       const data = [];
-
-      // for (let i = 0; i < ids.length; i++) {
-      //   const uri = await getReport(Number(ids[i]));
-      //   // console.log(uri);
-      //   //const res = await fetch(uri[0]);
-      //   //console.log(res);
-      //   data.push(uri);
-
       for (let i = 0; i < ids.length; i++) {
         const uri = (await getReport(Number(ids[i])))[0];
         console.log(uri);
         //TBD  reviwerID currently 0 fixed , need to get from report.
-        const reviewer = await getReviewerInfo(0); //TBD
-        data.push({ uri, reviewer, reviewerId: 0 }); //TBD
+        const reviewer = await getReviewerInfo(1); //TBD
+        data.push({ uri, reviewer, reviewerId: 1 }); //TBD
         console.log(reviewer);
       }
       //console.log(data);

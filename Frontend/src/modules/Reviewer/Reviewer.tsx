@@ -3,7 +3,10 @@ import Header from "@modules/Shared/layout/Header";
 import { ReviewerSummary } from "./features/reviewerSummary";
 import { ReviewList } from "./features/reviewList";
 import { useParams } from "react-router-dom";
-import { getReviewerInfo } from "@modules/Shared/Services";
+import {
+  getReviewerInfo,
+  getReviewerReportInfo,
+} from "@modules/Shared/Services";
 interface IData {
   name: string;
   description: string;
@@ -16,16 +19,18 @@ interface IData {
 export function Reviewer() {
   let { id } = useParams();
   const [data, setData] = useState<IData>({
-    name: "string",
-    description: "string",
-    verification_method: "string",
-    email: "string",
-    location: "string",
+    name: "",
+    description: "",
+    verification_method: "",
+    email: "",
+    location: "",
     expertise: [""],
   });
 
   const getInfo = async () => {
     const info = await getReviewerInfo(Number(id));
+    const reports = await getReviewerReportInfo(Number(id) + 1);
+    console.log(reports);
     setData(info);
   };
 

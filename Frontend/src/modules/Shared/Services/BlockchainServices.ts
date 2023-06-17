@@ -11,11 +11,7 @@ const ReportAddr = "0x82A58CB41900ADaDbF82e8c10d4490b063A66180";
 const url = "https://api.calibration.node.glif.io/rpc/v1";
 const provider = new ethers.providers.JsonRpcProvider(url);
 
-const DatasetContract = new ethers.Contract(
-  DatasetAddr,
-  DatasetAbi,
-  provider
-);
+const DatasetContract = new ethers.Contract(DatasetAddr, DatasetAbi, provider);
 
 const ReviewerContract = new ethers.Contract(
   ReviewerAddr,
@@ -23,11 +19,7 @@ const ReviewerContract = new ethers.Contract(
   provider
 );
 
-const ReportContract = new ethers.Contract(
-  ReportAddr,
-  ReportAbi,
-  provider
-);
+const ReportContract = new ethers.Contract(ReportAddr, ReportAbi, provider);
 
 export const getDataset = async (tokenId: number) => {
   const tokenUri = await DatasetContract.functions.tokenURI(tokenId);
@@ -36,24 +28,44 @@ export const getDataset = async (tokenId: number) => {
 
 const reviwerCash = new Map();
 export const getReviewer = async (tokenId: number) => {
-  if(reviwerCash.get(tokenId)) return reviwerCash.get(tokenId);
+  if (reviwerCash.get(tokenId)) return reviwerCash.get(tokenId);
   const tokenUri = await ReviewerContract.functions.tokenURI(tokenId);
-  reviwerCash.set(tokenId,tokenUri);
+  reviwerCash.set(tokenId, tokenUri);
   return tokenUri;
 };
 
 const reviwerInfoCash = new Map();
 export const getReviewerInfo = async (tokenId: number) => {
-  if(reviwerInfoCash.get(tokenId)) return reviwerInfoCash.get(tokenId);
+  if (reviwerInfoCash.get(tokenId)) return reviwerInfoCash.get(tokenId);
   const tokenUri = await getReviewer(tokenId);
   const res = await fetch(tokenUri[0]);
-  const ret =  await res.json();
-  reviwerInfoCash.set(tokenId,ret);
+  const ret = await res.json();
+  reviwerInfoCash.set(tokenId, ret);
   return ret;
 };
 
+const reviewerReportCash = new Map();
+export const getReviewerReports = async (tokenId: number) => {
+  if (reviewerReportCash.get(tokenId)) return reviewerReportCash.get(tokenId);
+  const reports = await ReportContract.functions.getReportsByReviewer(tokenId);
+  reviewerReportCash.set(tokenId, reports);
+  return reports;
+};
+
+const reviewerReportInfoCash = new Map();
+export const getReviewerReportInfo = async (tokenId: number) => {
+  if (reviwerInfoCash.get(tokenId)) return reviewerReportInfoCash.get(tokenId);
+  const reports = await getReviewerReports(tokenId);
+  // const res = await fetch(tokenUri[0]);
+  // const ret =  await res.json();
+  reviewerReportInfoCash.set(tokenId, reports);
+  return reports;
+};
+
 export const getReportsByDataset = async (datasetId: number) => {
-  const reportIds = await ReportContract.functions.getReportsByDataset(datasetId);
+  const reportIds = await ReportContract.functions.getReportsByDataset(
+    datasetId
+  );
   return reportIds;
 };
 
@@ -61,4 +73,3 @@ export const getReport = async (id: number) => {
   const uri = await ReportContract.functions.tokenURI(id);
   return uri;
 };
-

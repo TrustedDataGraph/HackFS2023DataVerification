@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 
-interface IProps {
-  data: any;
+interface IData {
+  name: string;
+  description: string;
+  dataset_size: number;
+  file_format: string;
 }
-export const DataSummary = ({ data }: IProps) => {
+export const DataSummary = ({ data }: { data: IData }) => {
   const [link, setLink] = useState("");
 
   const formatBytes = (bytes: number, decimals = 2) => {

@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { AiFillCheckCircle } from "react-icons/ai";
-
-// import { getReportsByDataset, getReport } from "@modules/Shared/Services";
-// import { ReviewDisplayList } from "@modules/DataActivities/components/ReviewList";
-
 import { Link } from "react-router-dom";
 import {
   getReportsByDataset,
@@ -43,7 +39,7 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [data]);
 
   return (
     <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
@@ -66,7 +62,7 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
               </div>
               <div className="w-[25%] text-sm flex justify-between items-center">
                 <small className="text-sm text-linkBlue font-semibold  underline">
-                  <a href={item.uri}>View Report</a>
+                  <a href={item.uri} target="_blank" rel="noopener noreferrer">View Report</a>
                 </small>
                 <small className="text-sm text-linkBlue font-semibold  underline">
                   <Link to={`/reviewer/${item.reviewerId}`}>

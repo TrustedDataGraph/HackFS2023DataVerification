@@ -18,6 +18,7 @@ interface IData {
 
 export function Reviewer() {
   let { id } = useParams();
+  const [reports, setReports] = useState<any>([]);  
   const [data, setData] = useState<IData>({
     name: "",
     description: "",
@@ -29,9 +30,10 @@ export function Reviewer() {
 
   const getInfo = async () => {
     const info = await getReviewerInfo(Number(id));
-    const reports = await getReviewerReports(Number(id));
-    console.log(reports);
-    setData(info);
+    setData(info);    
+    const r = await getReviewerReports(Number(id));
+    setReports(r);
+    //console.log(r,reports);
   };
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export function Reviewer() {
       <Header />
       <main className="w-full h-[90%]">
         <ReviewerSummary data={data} />
-        <ReviewList />
+        <ReviewList reports={reports}  />
       </main>
     </div>
   );

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "@modules/Shared/layout/Header";
 import { DataSummary } from "./features/dataSummary";
 import { VerificationList } from "./features/verificationList";
+import { FileList } from "./features/fileList";
 import { useParams } from "react-router-dom";
 import { getDataset } from "@modules/Shared/Services";
 
@@ -42,6 +43,7 @@ export function DataActivities() {
         {Object.keys(data).length > 0 && (
           <>
             <DataSummary data={data} />
+            <FileList data={data} />
             <VerificationList />
           </>
         )}

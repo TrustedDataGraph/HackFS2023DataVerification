@@ -10,6 +10,7 @@ import {
   getReportsByDataset,
   getReport,
   getReviewerInfo,
+  getReportReviewer,
 } from "@modules/Shared/Services";
 
 interface IProps {
@@ -23,17 +24,16 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   const getData = async () => {
     try {
       const ids = await getReportsByDataset(datasetid);
-      // console.log(ids);
+      console.log(ids);
       setIdList([Number(ids)]);
 
       const data = [];
       for (let i = 0; i < ids.length; i++) {
-        const uri = (await getReport(Number(ids[i])))[0];
-        console.log(uri);
-        //TBD  reviwerID currently 0 fixed , need to get from report.
-        const reviewer = await getReviewerInfo(1); //TBD
-        data.push({ uri, reviewer, reviewerId: 1 }); //TBD
-        console.log(reviewer);
+        const reportId = Number(ids[i]);
+        const uri = await getReport(reportId);
+        const revId = Number(await getReportReviewer(reportId));
+        const reviewer = await getReviewerInfo(revId); 
+        data.push({ uri, reviewer, reviewerId: revId }); 
       }
       //console.log(data);
       setDataList(data);

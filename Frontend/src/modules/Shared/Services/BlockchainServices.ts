@@ -57,10 +57,21 @@ export const getReportsByDataset = async (datasetId: number) => {
   const reportIds = await ReportContract.functions.getReportsByDataset(
     datasetId
   );
-  return reportIds;
+  return reportIds[0];
 };
 
 export const getReport = async (id: number) => {
   const uri = await ReportContract.functions.tokenURI(id);
-  return uri;
+  return uri[0];
 };
+
+export const getReportReviewer = async (reportId: number) => {
+  const id = await ReportContract.functions.getReviewer(reportId);
+  return id;
+};
+
+export const getReportDataset = async (reportId: number) => {
+  const id = await ReportContract.functions.getDataset(reportId);
+  return id;
+};
+

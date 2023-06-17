@@ -20,6 +20,7 @@ export const ReviewDisplayList = ({ reviewId }: { reviewId: number }) => {
   return (
     <li className="flex space-x-4">
       <div className="w[10%] text-lg">{reviewId}</div>
+      {/**@ts-ignore */}
       <div className="w-[55%] text-lg">{detail.name}</div>
       <div className="w-[10%] flex items-center text-green-500 ">
         <AiFillCheckCircle size={20} />

@@ -4,7 +4,6 @@ import { AiFillCheckCircle } from "react-icons/ai";
 export const VerificationList = () => {
   return (
     <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
-      <h2 className="font-bold text-3xl h-[10%] "> Verifiers</h2>
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
         <li className="flex space-x-4">
           <div className="w[10%] text-lg">1.</div>

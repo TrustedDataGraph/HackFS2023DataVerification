@@ -10,6 +10,7 @@ export function DataActivities() {
   let { id } = useParams();
 
   const [data, setData] = useState<any>({});
+  const [activeTab, setActiveTab] = useState('review');
 
   const getData = async () => {
     let data1 = await getDataset(Number(id));
@@ -43,8 +44,27 @@ export function DataActivities() {
         {Object.keys(data).length > 0 && (
           <>
             <DataSummary data={data} />
-            <FileList data={data} />
-            <VerificationList />
+
+            <div>
+                <div className="flex mb-4">
+                    <div 
+                        className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${activeTab === 'review' ? 'bg-gray-white' : 'bg-gray-200'}`}
+                        onClick={() => setActiveTab('review')}>
+                        Reviews
+                    </div>
+                    <div 
+                        className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${activeTab === 'file' ? 'bg-gray-white' : 'bg-gray-200'}`}
+                        onClick={() => setActiveTab('file')}>
+                        Files
+                    </div>
+                </div>
+                <div className={`w-full text-center p-2 ${activeTab === 'review' ? 'bg-gray-white' : 'hidden'}`}>
+                  <VerificationList />
+                </div>
+                <div className={`w-full text-center p-2 ${activeTab === 'file' ? 'bg-gray-white' : 'hidden'}`}>
+                  <FileList data={data} />
+                </div>
+            </div>
           </>
         )}
       </main>

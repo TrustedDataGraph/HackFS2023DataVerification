@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { AiFillCheckCircle } from "react-icons/ai";
-import { getReportsByDataset,getReport } from "@modules/Shared/Services";
+import { Link } from "react-router-dom";
+import { getReportsByDataset,getReport, getReviewerInfo } from "@modules/Shared/Services";
 interface IProps {
   data: any;
   datasetid: number;
@@ -15,11 +16,13 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
       console.log(ids);      
       const data = [];
       for(let i=0; i<ids.length;i++){
-        const uri = await getReport(Number(ids[i]));
+        const uri = (await getReport(Number(ids[i])))[0];
         console.log(uri)        
-        //const res = await fetch(uri[0]);
-        //console.log(res);
-        data.push(uri);        
+        //TBD  reviwerID currently 0 fixed , need to get from report.
+        const reviewer = await getReviewerInfo(0); //TBD
+        data.push({uri,reviewer,reviewerId:0});   //TBD
+        console.log(reviewer);
+     
       }
       console.log(data);
       setDataList(data)
@@ -34,51 +37,35 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   return (
     <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
-        <li className="flex space-x-4">
-          <div className="w[10%] text-lg">1.</div>
-          <div className="w-[55%] text-lg">University of Waterloo</div>
-          <div className="w-[10%] flex items-center text-green-500 ">
-            <AiFillCheckCircle size={20} />
-          </div>
-          <div className="w-[25%] text-sm flex justify-between items-center">
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Report
-            </small>
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Verifier
-            </small>
-          </div>
-        </li>
-        <li className="flex space-x-4">
-          <div className="w[10%] text-lg">1.</div>
-          <div className="w-[55%] text-lg">University of Waterloo</div>
-          <div className="w-[10%] flex items-center text-green-500 ">
-            <AiFillCheckCircle size={20} />
-          </div>
-          <div className="w-[25%] text-sm flex justify-between items-center">
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Report
-            </small>
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Verifier
-            </small>
-          </div>
-        </li>
-        <li className="flex space-x-4">
-          <div className="w[10%] text-lg">2.</div>
-          <div className="w-[55%] text-lg">Verifier Dao</div>
-          <div className="w-[10%] flex items-center text-green-500 ">
-            <AiFillCheckCircle size={20} />
-          </div>
-          <div className="w-[25%] text-sm flex justify-between items-center">
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Report
-            </small>
-            <small className="text-sm text-linkBlue font-semibold  underline">
-              View Verifier
-            </small>
-          </div>
-        </li>
+        {dataList.length == 0 && (
+            <li className="text-md font-bold text-center mt-10">
+              Loading Files...
+            </li>
+          )}
+
+        {dataList.length > 0 &&
+          dataList.map((item: any, idx: any) => (
+            <li key={idx} className="flex space-x-4">
+            <div className="w[10%] text-lg">{idx+1}.</div>
+            <div className="w-[55%] text-lg">{item.reviewer.name}</div>
+            <div className="w-[10%] flex items-center text-green-500 ">
+              <AiFillCheckCircle size={20} />
+            </div>
+            <div className="w-[25%] text-sm flex justify-between items-center">
+              <small  className="text-sm text-linkBlue font-semibold  underline">
+                <a href={item.uri}>
+                View Report
+                </a>
+              </small>
+              <small className="text-sm text-linkBlue font-semibold  underline">
+                <Link to={`/reviewer/${item.reviewerId}`}>
+                 View Verifier! 
+                </Link>
+              </small>
+            </div>
+          </li>            
+          ))}        
+
         <li className="flex space-x-4">
           <div className="w[10%] text-lg">3.</div>
           <div className="w-[55%] text-lg">UCLA</div>

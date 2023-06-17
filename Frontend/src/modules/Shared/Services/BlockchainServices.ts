@@ -34,9 +34,22 @@ export const getDataset = async (tokenId: number) => {
   return tokenUri;
 };
 
+const reviwerCash = new Map();
 export const getReviewer = async (tokenId: number) => {
+  if(reviwerCash.get(tokenId)) return reviwerCash.get(tokenId);
   const tokenUri = await ReviewerContract.functions.tokenURI(tokenId);
+  reviwerCash.set(tokenId,tokenUri);
   return tokenUri;
+};
+
+const reviwerInfoCash = new Map();
+export const getReviewerInfo = async (tokenId: number) => {
+  if(reviwerInfoCash.get(tokenId)) return reviwerInfoCash.get(tokenId);
+  const tokenUri = await getReviewer(tokenId);
+  const res = await fetch(tokenUri[0]);
+  const ret =  await res.json();
+  reviwerInfoCash.set(tokenId,ret);
+  return ret;
 };
 
 export const getReportsByDataset = async (datasetId: number) => {

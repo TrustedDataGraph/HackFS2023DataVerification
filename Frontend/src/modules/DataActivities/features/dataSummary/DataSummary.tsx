@@ -64,6 +64,7 @@ export const DataSummary = ({
             </small>
             <p className="text-2xl font-bold">9/10</p>
           </div>
+
           <div className="w-[30%] flex gap-4">
             <button className=" text-center rounded-lg text-2xl font-bold h-full w-[50%]">
               {/* Show Report of Verifier(TBD) */}

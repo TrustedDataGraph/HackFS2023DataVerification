@@ -43,8 +43,8 @@ export function DataActivities() {
           <>
             <DataSummary data={data} datasetid={Number(id)} />
 
-            <div>
-              <div className="flex mb-4">
+            <div className="p-6  rounded-lg shadow-lg">
+              <div className="flex">
                 <div
                   className={`w-1/5 h-8 text-xl  items-center text-center cursor-pointer  ${
                     activeTab === "review" ? "bg-gray-200" : ""
@@ -63,15 +63,15 @@ export function DataActivities() {
                 </div>
               </div>
               <div
-                className={`w-full text-center p-2 ${
-                  activeTab === "review" ? "bg-gray-white" : "hidden"
+                className={`w-full p-4 text-center rounded-b-lg bg-white shadow-inner  ${
+                  activeTab === "review" ? "" : "hidden"
                 }`}
               >
                 <VerificationList data={data} datasetid={Number(id)} />
               </div>
               <div
-                className={`w-full text-center p-2 ${
-                  activeTab === "file" ? "bg-gray-white" : "hidden"
+                className={`w-full p-4 text-center rounded-b-lg bg-white shadow-inner ${
+                  activeTab === "file" ? "" : "hidden"
                 }`}
               >
                 <FileList data={data} />

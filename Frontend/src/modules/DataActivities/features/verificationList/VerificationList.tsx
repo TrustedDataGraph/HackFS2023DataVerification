@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { AiFillCheckCircle } from "react-icons/ai";
-
-// import { getReportsByDataset, getReport } from "@modules/Shared/Services";
-// import { ReviewDisplayList } from "@modules/DataActivities/components/ReviewList";
-
 import { Link } from "react-router-dom";
 import {
   getReportsByDataset,
   getReport,
   getReviewerInfo,
+  getReportReviewer,
 } from "@modules/Shared/Services";
 
 interface IProps {
@@ -25,17 +22,16 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   const getData = async () => {
     try {
       const ids = await getReportsByDataset(datasetid);
-      // console.log(ids);
+      console.log(ids);
       setIdList([Number(ids)]);
 
       const data = [];
       for (let i = 0; i < ids.length; i++) {
-        const uri = (await getReport(Number(ids[i])))[0];
-        console.log(uri);
-        //TBD  reviwerID currently 0 fixed , need to get from report.
-        const reviewer = await getReviewerInfo(1); //TBD
-        data.push({ uri, reviewer, reviewerId: 1 }); //TBD
-        console.log(reviewer);
+        const reportId = Number(ids[i]);
+        const uri = await getReport(reportId);
+        const revId = Number(await getReportReviewer(reportId));
+        const reviewer = await getReviewerInfo(revId);
+        data.push({ uri, reviewer, reviewerId: revId });
       }
       //console.log(data);
       setDataList(data);
@@ -47,7 +43,7 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [data]);
 
   return (
     <div className="h-[40%] w-full lg:w-[80%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
@@ -70,7 +66,9 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
               </div>
               <div className="w-[25%] text-sm flex justify-between items-center">
                 <small className="text-sm text-linkBlue font-semibold  underline">
-                  <a href={item.uri}>View Report</a>
+                  <a href={item.uri} target="_blank" rel="noopener noreferrer">
+                    View Report
+                  </a>
                 </small>
                 <small className="text-sm text-linkBlue font-semibold  underline">
                   <Link to={`/reviewer/${item.reviewerId}`}>

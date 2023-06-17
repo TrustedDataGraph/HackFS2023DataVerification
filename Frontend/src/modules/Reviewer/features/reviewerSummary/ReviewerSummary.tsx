@@ -9,7 +9,7 @@ interface IData {
 
 export const ReviewerSummary = ({ data }: { data: IData }) => {
   return (
-    <div className="h-[60%] w-full relative bg-white">
+    <div className="h-[70%] w-full relative bg-white">
       <h2 className="font-bold text-5xl h-[15%] bg-white relative pt-3">
         {data.name}
       </h2>

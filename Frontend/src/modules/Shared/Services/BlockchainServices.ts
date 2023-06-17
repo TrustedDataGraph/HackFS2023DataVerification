@@ -2,13 +2,13 @@ import { ethers } from "ethers";
 import DatasetAbi from "@abi/Dataset.json";
 import ReviewerAbi from "@abi/Reviewer.json";
 import ReportAbi from "@abi/Report.json";
-const DatasetAddr = "0x09Ec1581C9eE71A03cfc1BFD8264ea729736a873";
-const ReviewerAddr = "0x449626731493C906362E1f183295f6A8A766b98f";
-const ReportAddr = "0x82A58CB41900ADaDbF82e8c10d4490b063A66180";
+const DatasetAddr = `${import.meta.env.VITE_DATASET_ADDR}`;
+const ReviewerAddr = `${import.meta.env.VITE_REVIEWER_ADDR}`;
+const ReportAddr = `${import.meta.env.VITE_REPORT_ADDR}`;
 
 //@ts-ignore
 //let provider: any;
-const url = "https://api.calibration.node.glif.io/rpc/v1";
+const url = `${import.meta.env.VITE_NODE_URL}`;
 const provider = new ethers.providers.JsonRpcProvider(url);
 
 const DatasetContract = new ethers.Contract(DatasetAddr, DatasetAbi, provider);

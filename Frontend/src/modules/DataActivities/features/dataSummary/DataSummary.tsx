@@ -33,7 +33,7 @@ export const DataSummary = ({ data }: { data: IData }) => {
       <div className="h-[85%]">
         <p className="text-xl py-6">{data.description}</p>
 
-        <div className="w-full lg:w-[50%] flex gap-6">
+        <div className="w-full flex gap-6">
           <div className="w-[50%]">
             <div className="flex py-2">
               <div className="w-[70%] font-bold text-lg">Size</div>
@@ -58,7 +58,7 @@ export const DataSummary = ({ data }: { data: IData }) => {
           </div>
           <div className="w-[30%]">
             <button className="bg-primaryLight rounded-lg text-2xl font-bold h-full px-3">
-              Show Report of Verifier(TBD)
+              Submit a Report
             </button>
           </div>
         </div>

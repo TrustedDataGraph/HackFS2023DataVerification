@@ -42,7 +42,7 @@ export const VerificationList = ({ data, datasetid }: IProps) => {
   }, [data]);
 
   return (
-    <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg">
+    <div className="h-[40%] w-full lg:w-full  pt-4 py-2 px-4 rounded-lg">
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
         {/* // {idList.map((id, idx) => (
         //   <ReviewDisplayList key={idx} reviewId={id} />

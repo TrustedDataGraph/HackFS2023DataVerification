@@ -43,19 +43,19 @@ export function DataActivities() {
           <>
             <DataSummary data={data} />
 
-            <div>
-              <div className="flex mb-4">
+            <div className="p-6  rounded-lg shadow-lg">
+              <div className="flex">
                 <div
-                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
-                    activeTab === "review" ? "bg-gray-200" : ""
+                  className={`w-1/5 px-2 text-center cursor-pointer  rounded-t-lg ${
+                    activeTab === "review" ? "bg-white shadow-inner" : "bg-gray-200"
                   }`}
                   onClick={() => setActiveTab("review")}
                 >
                   Reviews
                 </div>
                 <div
-                  className={`w-1/5 h-8 text-xl text-center cursor-pointer p-2 ${
-                    activeTab === "file" ? "bg-gray-200 " : ""
+                  className={`w-1/5 px-2 text-center cursor-pointer  rounded-t-lg ${
+                    activeTab === "file" ? "bg-white shadow-inner" : "bg-gray-200"
                   }`}
                   onClick={() => setActiveTab("file")}
                 >
@@ -63,15 +63,15 @@ export function DataActivities() {
                 </div>
               </div>
               <div
-                className={`w-full text-center p-2 ${
-                  activeTab === "review" ? "bg-gray-white" : "hidden"
+                className={`w-full p-4 text-center rounded-b-lg bg-white shadow-inner  ${
+                  activeTab === "review" ? "" : "hidden"
                 }`}
               >
                 <VerificationList data={data} datasetid={Number(id)} />
               </div>
               <div
-                className={`w-full text-center p-2 ${
-                  activeTab === "file" ? "bg-gray-white" : "hidden"
+                className={`w-full p-4 text-center rounded-b-lg bg-white shadow-inner ${
+                  activeTab === "file" ? "" : "hidden"
                 }`}
               >
                 <FileList data={data} />

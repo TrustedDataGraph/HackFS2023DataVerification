@@ -44,7 +44,7 @@ export const FileList = ({ data }: IProps) => {
   }, []);
 
   return (
-    <div className="h-[40%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg ">
+    <div className="h-[40%] w-full pt-4 py-2 px-4 rounded-lg ">
       <section className="h-[90%] w-full  px-2">
         <div className="flex text-md lg:text-2xl ">
           <div className="font-bold  w-[10%]  px-2">Logo</div>

@@ -32,7 +32,7 @@ export const ReviewList = ( {reports }: IProps) => {
   }, [reports]);
 
   return (
-    <div className="h-[30%] w-full lg:w-[50%]  border-2 border-black pt-4 py-2 px-4 rounded-lg ">
+    <div className="h-[30%] w-full lg:w-full  border-2 border-black pt-4 py-2 px-4 rounded-lg ">
       <h2 className="font-bold text-3xl h-[10%] "> Datasets Verified</h2>
       <ol className="block h-[90%] list-decimal w-full py-4 pt-6 overflow-y-auto ">
         {dataList.length == 0 && (

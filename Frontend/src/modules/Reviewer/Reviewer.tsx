@@ -5,7 +5,7 @@ import { ReviewList } from "./features/reviewList";
 import { useParams } from "react-router-dom";
 import {
   getReviewerInfo,
-  getReviewerReportInfo,
+  getReviewerReports,
 } from "@modules/Shared/Services";
 interface IData {
   name: string;
@@ -29,7 +29,7 @@ export function Reviewer() {
 
   const getInfo = async () => {
     const info = await getReviewerInfo(Number(id));
-    const reports = await getReviewerReportInfo(Number(id) + 1);
+    const reports = await getReviewerReports(Number(id));
     console.log(reports);
     setData(info);
   };

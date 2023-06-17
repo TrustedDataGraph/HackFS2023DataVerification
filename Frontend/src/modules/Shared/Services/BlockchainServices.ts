@@ -66,25 +66,37 @@ export const getReviewerReports = async (reviewerId: number) => {
 };
 
 
+const reportsByDatasetCash = new Map();
 export const getReportsByDataset = async (datasetId: number) => {
+  if (reportsByDatasetCash.get(datasetId)) return reportsByDatasetCash.get(datasetId);
   const reportIds = await ReportContract.functions.getReportsByDataset(
     datasetId
   );
+  reportsByDatasetCash.set(datasetId, reportIds[0]);
   return reportIds[0];
 };
 
+const reportsCash = new Map();
 export const getReport = async (id: number) => {
+  if (reportsCash.get(id)) return reportsCash.get(id);
   const uri = await ReportContract.functions.tokenURI(id);
+  reportsCash.set(id, uri[0]);
   return uri[0];
 };
 
+const reportReviewerCash = new Map();
 export const getReportReviewer = async (reportId: number) => {
+  if (reportReviewerCash.get(reportId)) return reportReviewerCash.get(reportId);
   const id = await ReportContract.functions.getReviewer(reportId);
+  reportReviewerCash.set(reportId, id[0]);
   return id[0];
 };
 
+const reportDatasetCash = new Map();
 export const getReportDataset = async (reportId: number) => {
+  if (reportDatasetCash.get(reportId)) return reportDatasetCash.get(reportId);
   const id = await ReportContract.functions.getDataset(reportId);
+  reportDatasetCash.set(reportId, id[0]);
   return id[0];
 };
 

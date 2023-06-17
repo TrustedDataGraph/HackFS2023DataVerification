@@ -62,25 +62,23 @@ export const FileList = ({ data }: IProps) => {
 
         {dataList.length > 0 &&
           dataList.map((item: any, idx: any) => (
-            <Link to={`/dataset/${idx + 1}`} key={idx}>
-              <div className="flex min-w-[1200px] text-md my-4 border-2 border-gray-300 py-5 cursor-pointer hover:shadow-md  shadow-black">
-                <div className="  w-[10%]  px-2">
-                  <img src={listIcon} />
-                </div>
-                <div className="text-lg flex items-center w-[20%] px-2">
-                  {item.filename}
-                </div>
-                <div className="text-lg flex items-center  w-[15%] px-2">
-                  {formatBytes(item.data_size)}
-                </div>
-                <div className="text-lg flex items-center  w-[15%] px-2">
-                  {item.deal_id}
-                </div>
-                <div className=" text-lg flex space-x-2 overflow-x-auto items-center w-[10%]  px-2">
-                  Download!
-                </div>
+            <div className="flex min-w-[1200px] text-md my-4 border-2 border-gray-300 py-5 cursor-pointer hover:shadow-md  shadow-black">
+              <div className="  w-[10%]  px-2">
+                <img src={listIcon} />
               </div>
-            </Link>
+              <div className="text-lg flex items-center w-[20%] px-2">
+                {item.filename}
+              </div>
+              <div className="text-lg flex items-center  w-[15%] px-2">
+                {formatBytes(item.data_size)}
+              </div>
+              <div className="text-lg flex items-center  w-[15%] px-2">
+                {item.deal_id}
+              </div>
+              <div className=" text-lg flex space-x-2 overflow-x-auto items-center w-[10%]  px-2">
+                <a href={`http://34.66.50.93/ipfs/${item.payload_cid}?format=car&protocols=graphsync&providers=${item.miner_multi_addrs.split(' ')[0]}/p2p/${item.miner_peer}`}>Download</a>
+              </div>
+            </div>
           ))}
       </section>
     </div>

@@ -1,14 +1,16 @@
-import { getDatasetInfo, isWallectConnected, mintReport } from "@modules/Shared/Services";
+import { clearReportCache, getDatasetInfo, getReviewerInfo, getReviewerOwner, isWallectConnected, mintReport } from "@modules/Shared/Services";
 import { useGlobalState } from "@modules/Shared/store";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { storeFiles } from "@modules/Shared/Services/Storage";
+import { ethers } from "ethers";
 
 export const ReportForm = () => {
   const fileElement = useRef<HTMLInputElement>(null);
   const [currentFile, setCurrentFile] = useState<File>();
   const [data, setData] = useState<any>({});
   const [reviewerId, setReviewerId] = useState(-1);
+  const [reviewerInfo, setReviewerInfo] = useState<any>({});
   const [reportUri, setReportUri] = useState("");
   const { datasetId } = useParams();
   const [connectedAddress] = useGlobalState("connectedAddress");
@@ -56,9 +58,24 @@ export const ReportForm = () => {
     setReportUri(uri);
   };
 
+  const [number, setNumber] = useState('');
+  const handleNumberChange = (event) => {
+    setNumber(event.target.value);
+  };
+
+  const [verifyState, setVerifyState] = useState("");
   const checkReviewerId = async () => {
-    //XXX temporary
-    setReviewerId(1);
+    console.log("check token:",number);
+    const id = Number(number);
+    const owner = await getReviewerOwner(id);
+    if(ethers.utils.getAddress(owner) == ethers.utils.getAddress(connectedAddress)){
+      setReviewerId(id);
+      const info = await getReviewerInfo(id);
+      setReviewerInfo(info);
+      setVerifyState("token verified");
+    } else {
+      setVerifyState(" failed");
+    }
   }
 
   const mint = async () => {
@@ -66,13 +83,13 @@ export const ReportForm = () => {
       console.log("mint", reviewerId, datasetId, reportUri);
       await mintReport(reviewerId, Number(datasetId),reportUri);
       setUserState("completed");
+      clearReportCache();
     }catch(errro){
       console.error(errro)
     }
   }
 
   useEffect(() => {
-    checkReviewerId(); // XXX remporary
     isWallectConnected();
     getData();
     updateUserState();
@@ -87,14 +104,19 @@ export const ReportForm = () => {
             <div className="w-[50%] text-xl font-semibold ">
               Connected Reviewer:
             </div>
-            {!connectedAddress && (
+            {userState=="notconnected" && (
               <div className="w-[50%] font-normal text-xl">
                 Please Connect Wallet{" "}
               </div>
             )}
-            {connectedAddress && (
-              <div className="w-[50%]  font-semibold  text-xl text-blue-600">
-                #1
+            {userState=="connected" && (
+              <div className="w-[50%] font-normal text-xl">
+                Please Veiry your ReviwerNFT id
+              </div>
+            )}
+            {(userState=="verified" || userState =="reportReady" || userState=="completed" ) && (
+              <div className="w-[50%]  font-semibold  text-xl text-black">
+                {reviewerInfo.name}
               </div>
             )}
           </div>
@@ -106,14 +128,25 @@ export const ReportForm = () => {
           </div>
           <div className="w-full flex">
             <div className="w-[50%] text-xl font-semibold ">Reviewer NFT:</div>
-            {!connectedAddress && (
+            {userState=="notconnected" && (
               <div className="w-[50%] font-normal text-xl">
                 Please Connect Wallet
               </div>
             )}
-            {connectedAddress && (
+            {(userState=="connected" ) && (
               <div className="w-[50%] font-normal font-semibold text-xl text-blue-600">
-                #1
+                <input type="number" value={number} onChange={handleNumberChange} 
+                  className="w-16 p-2 border border-gray-300 shadow" 
+                />
+                <button onClick={checkReviewerId} className="mt-2 border-2 px-3 border-black rounded-xl bg-uploadLight font-semibold text-xl">
+                   verify id
+                </button>
+                {verifyState}
+              </div>
+            )}
+            {(userState=="verified" || userState =="reportReady" || userState=="completed" ) && (
+              <div className="w-[50%] font-normal font-semibold text-xl text-blue-600">
+                #{reviewerId} {verifyState}
               </div>
             )}
           </div>
@@ -124,12 +157,19 @@ export const ReportForm = () => {
             onChange={selectFile}
             accept=".pdf"
           />
-          <button
-            onClick={() => fileElement.current?.click()}
-            className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
-          >
-            Upload The Report
-          </button>
+          {(userState=="verified" || userState=="reportReady") ? (
+            <button
+              onClick={() => fileElement.current?.click()}
+              className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
+            >
+              Upload The Report
+            </button>
+          ):(
+            <button className="mt-10 border-2 px-4 py-2 border-black rounded-xl bg-gray-300 font-semibold text-xl">
+              Upload The Report
+            </button>
+
+          )}
 
           <div className="w-full flex gap-10 my-10">
             <div className="text-xl font-semibold ">File Uploaded:</div>
@@ -137,23 +177,24 @@ export const ReportForm = () => {
               {currentFile?.name}
             </div>
           </div>
-          {userState=="completed" && (
-            <div className="font-normal text-xl text-blue-600 underline">
-            Complete! Thank you for your subbmit.
-            </div>
-          )}
-          {userState=="reportReady" ? (
+          {userState=="reportReady" && (
            <button 
             onClick={mint}
             className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
             >
             Submit Report
            </button>
-           ) : (
+          )}
+          {(userState=="connected" || userState=="notconnected" || userState=="verified" )&& (
             <button className="mt-10 border-2 px-4 py-2 border-black rounded-xl bg-gray-300 font-semibold text-xl">
             Submit Report
             </button>
             )}
+          {userState=="completed" && (
+            <div className="font-normal text-xl text-blue-600 underline">
+            Complete! Thank you for your subbmit.
+            </div>
+          )}
         </div>
       </div>
     </div>

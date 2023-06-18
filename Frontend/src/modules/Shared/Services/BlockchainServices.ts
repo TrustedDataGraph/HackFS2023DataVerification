@@ -57,6 +57,12 @@ export const getReviewerInfo = async (tokenId: number) => {
   return ret;
 };
 
+export const getReviewerOwner = async (reviewerId: number) => {
+  const addr = await ReviewerContract.functions.ownerOf(reviewerId);
+  console.log(addr);
+  return addr[0];
+}
+
 let reviewerReportCache = new Map();
 export const getReviewerReports = async (reviewerId: number) => {
   if (reviewerReportCache.get(reviewerId)) return reviewerReportCache.get(reviewerId);

@@ -71,7 +71,7 @@ export const DataSummary = ({
             </button>
             <Link to={`/report/${datasetid}`} className=" w-[50%]">
               <button className="bg-uploadLight text-center rounded-lg text-2xl font-bold h-full">
-                Submit A Report
+                Submit a Report
               </button>
             </Link>
           </div>

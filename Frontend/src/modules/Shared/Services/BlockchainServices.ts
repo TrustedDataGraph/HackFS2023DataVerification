@@ -21,86 +21,91 @@ const ReviewerContract = new ethers.Contract(
 
 const ReportContract = new ethers.Contract(ReportAddr, ReportAbi, provider);
 
-const datasetCash = new Map();
+const datasetCache = new Map();
 export const getDataset = async (tokenId: number) => {
-  if (datasetCash.get(tokenId)) return datasetCash.get(tokenId);
+  if (datasetCache.get(tokenId)) return datasetCache.get(tokenId);
   const tokenUri = await DatasetContract.functions.tokenURI(tokenId);
-  datasetCash.set(tokenId,tokenUri);
+  datasetCache.set(tokenId,tokenUri);
   return tokenUri;
 };
 
-const datasetInfoCash = new Map();
+const datasetInfoCache = new Map();
 export const getDatasetInfo  = async (tokenId: number) => {
-  if (datasetInfoCash.get(tokenId)) return datasetInfoCash.get(tokenId);
+  if (datasetInfoCache.get(tokenId)) return datasetInfoCache.get(tokenId);
   const tokenUri = await getDataset(tokenId);
   const res = await fetch(tokenUri[0]);
   const ret = await res.json();
-  datasetInfoCash.set(tokenId, ret);
+  datasetInfoCache.set(tokenId, ret);
   return ret;
 };
 
-const reviwerCash = new Map();
+const reviwerCache = new Map();
 export const getReviewer = async (tokenId: number) => {
-  if (reviwerCash.get(tokenId)) return reviwerCash.get(tokenId);
+  if (reviwerCache.get(tokenId)) return reviwerCache.get(tokenId);
   const tokenUri = await ReviewerContract.functions.tokenURI(tokenId);
-  reviwerCash.set(tokenId, tokenUri);
+  reviwerCache.set(tokenId, tokenUri);
   return tokenUri;
 };
 
-const reviwerInfoCash = new Map();
+const reviwerInfoCache = new Map();
 export const getReviewerInfo = async (tokenId: number) => {
-  if (reviwerInfoCash.get(tokenId)) return reviwerInfoCash.get(tokenId);
+  if (reviwerInfoCache.get(tokenId)) return reviwerInfoCache.get(tokenId);
   const tokenUri = await getReviewer(tokenId);
   const res = await fetch(tokenUri[0]);
   const ret = await res.json();
-  reviwerInfoCash.set(tokenId, ret);
+  reviwerInfoCache.set(tokenId, ret);
   return ret;
 };
 
-const reviewerReportCash = new Map();
+let reviewerReportCache = new Map();
 export const getReviewerReports = async (reviewerId: number) => {
-  if (reviewerReportCash.get(reviewerId)) return reviewerReportCash.get(reviewerId);
+  if (reviewerReportCache.get(reviewerId)) return reviewerReportCache.get(reviewerId);
   const reports = await ReportContract.functions.getReportsByReviewer(reviewerId);
-  reviewerReportCash.set(reviewerId, reports[0]);
+  reviewerReportCache.set(reviewerId, reports[0]);
   return reports[0];
 };
 
-
-const reportsByDatasetCash = new Map();
+let reportsByDatasetCache = new Map();
 export const getReportsByDataset = async (datasetId: number) => {
-  if (reportsByDatasetCash.get(datasetId)) return reportsByDatasetCash.get(datasetId);
+  if (reportsByDatasetCache.get(datasetId)) return reportsByDatasetCache.get(datasetId);
   const reportIds = await ReportContract.functions.getReportsByDataset(
     datasetId
   );
-  reportsByDatasetCash.set(datasetId, reportIds[0]);
+  reportsByDatasetCache.set(datasetId, reportIds[0]);
   return reportIds[0];
 };
 
-const reportsCash = new Map();
+export const clearReportCache = ()=>{
+  //need to clear by filter result , when creating new report.
+  reviewerReportCache = new Map();
+  reportsByDatasetCache = new Map();
+}
+
+const reportsCache = new Map();
 export const getReport = async (id: number) => {
-  if (reportsCash.get(id)) return reportsCash.get(id);
+  if (reportsCache.get(id)) return reportsCache.get(id);
   const uri = await ReportContract.functions.tokenURI(id);
-  reportsCash.set(id, uri[0]);
+  reportsCache.set(id, uri[0]);
   return uri[0];
 };
 
-const reportReviewerCash = new Map();
+const reportReviewerCache = new Map();
 export const getReportReviewer = async (reportId: number) => {
-  if (reportReviewerCash.get(reportId)) return reportReviewerCash.get(reportId);
+  if (reportReviewerCache.get(reportId)) return reportReviewerCache.get(reportId);
   const id = await ReportContract.functions.getReviewer(reportId);
-  reportReviewerCash.set(reportId, id[0]);
+  reportReviewerCache.set(reportId, id[0]);
   return id[0];
 };
 
-const reportDatasetCash = new Map();
+const reportDatasetCache = new Map();
 export const getReportDataset = async (reportId: number) => {
-  if (reportDatasetCash.get(reportId)) return reportDatasetCash.get(reportId);
+  if (reportDatasetCache.get(reportId)) return reportDatasetCache.get(reportId);
   const id = await ReportContract.functions.getDataset(reportId);
-  reportDatasetCash.set(reportId, id[0]);
+  reportDatasetCache.set(reportId, id[0]);
   return id[0];
 };
 
-// Before calling this function, connect metamsk should be done.
+// Before calling this function, connect metamsk, swith to filecoin network should be done.
 export const mintReport = async (reviewerId: number,datasetId: number, reportUri: string) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();

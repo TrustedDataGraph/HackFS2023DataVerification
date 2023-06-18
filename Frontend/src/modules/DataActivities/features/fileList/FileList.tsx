@@ -19,6 +19,7 @@ export const FileList = ({ data }: IProps) => {
       console.log(error);
       setIsLoading(false);
     }
+    console.log(dataList);
   };
 
   const formatBytes = (bytes: number, decimals = 2) => {
@@ -78,12 +79,12 @@ export const FileList = ({ data }: IProps) => {
                 {formatBytes(item.data_size)}
               </div>
               <div className="text-lg flex items-center  w-[15%] px-2">
-                {item.source == "Filecoin" ? item.deal_id : "--"}
+                {data.source == "Filecoin" ? item.deal_id : "--"}
               </div>
               <div className=" text-lg flex space-x-2 overflow-x-auto items-center w-[20%]  px-2">
                 <a
                   href={
-                    item.source == "Filecoin"
+                    data.source == "Filecoin"
                       ? `http://34.66.50.93/ipfs/${
                           item.payload_cid
                         }?format=car&protocols=graphsync&providers=${

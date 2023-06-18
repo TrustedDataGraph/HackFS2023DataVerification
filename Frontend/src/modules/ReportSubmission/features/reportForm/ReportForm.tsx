@@ -238,7 +238,7 @@ export const ReportForm = () => {
 
           {userState == "completed" && (
             <div className="font-normal text-xl text-blue-600 underline">
-              Complete! Thank you for your subbmition.
+              Complete! Thank you for your submition.
             </div>
           )}
         </div>

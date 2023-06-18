@@ -1,6 +1,7 @@
 import logo from "@assets/images/logo.png";
 import { connectWallet, disConnectWallet } from "@modules/Shared/Services";
 import { useGlobalState } from "@modules/Shared/store";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [connectedAddress] = useGlobalState("connectedAddress");
@@ -23,7 +24,9 @@ const Header = () => {
   };
   return (
     <div className="w-full h-[10%] flex items-center justify-between ">
+      <Link to={`/dataset/`}>
       <img src={logo} alt="logo" className="h-[90%]" />
+      </Link>
       {!connectedAddress && (
         <button
           onClick={() => connectWallet()}

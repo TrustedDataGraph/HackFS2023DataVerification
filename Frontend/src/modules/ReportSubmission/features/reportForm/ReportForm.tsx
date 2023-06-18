@@ -1,4 +1,11 @@
-import { clearReportCache, getDatasetInfo, getReviewerInfo, getReviewerOwner, isWallectConnected, mintReport } from "@modules/Shared/Services";
+import {
+  clearReportCache,
+  getDatasetInfo,
+  getReviewerInfo,
+  getReviewerOwner,
+  isWallectConnected,
+  mintReport,
+} from "@modules/Shared/Services";
 import { useGlobalState } from "@modules/Shared/store";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -13,33 +20,40 @@ export const ReportForm = () => {
   const [reviewerInfo, setReviewerInfo] = useState<any>({});
   const [reportUri, setReportUri] = useState("");
   const { datasetId } = useParams();
+  const [verifying, setVerifying] = useState<boolean>(false);
+  const [minting, setMinting] = useState<boolean>(false);
   const [connectedAddress] = useGlobalState("connectedAddress");
 
-  type UserState = "notconnected" | "connected" | "verified" | "reportReady" | "completed" ;
+  type UserState =
+    | "notconnected"
+    | "connected"
+    | "verified"
+    | "reportReady"
+    | "completed";
   const [userState, setUserState] = useState<UserState>("notconnected");
   const updateUserState = async () => {
-    if(connectedAddress){
-      if(0 <= reviewerId){
-        if(0 < reportUri.length){
+    if (connectedAddress) {
+      if (0 <= reviewerId) {
+        if (0 < reportUri.length) {
           setUserState("reportReady");
           console.log(userState);
-        }else {
+        } else {
           setUserState("verified");
           console.log(userState);
         }
       } else {
         setUserState("connected");
-        console.log(userState);        
+        console.log(userState);
       }
     } else {
       setUserState("notconnected");
       console.log(userState);
     }
-  }
-  
+  };
+
   const getData = async () => {
     try {
-      const info1 = await getDatasetInfo (Number(datasetId));
+      const info1 = await getDatasetInfo(Number(datasetId));
       console.log(info1);
       setData(info1);
       console.log(info1);
@@ -53,22 +67,27 @@ export const ReportForm = () => {
     const { files } = event.target;
     const selectedFiles = files as FileList;
     setCurrentFile(selectedFiles?.[0]);
-    const uri = await storeFiles(selectedFiles) as string;
+    const uri = (await storeFiles(selectedFiles)) as string;
     console.log(uri);
     setReportUri(uri);
   };
 
-  const [number, setNumber] = useState('');
+  const [number, setNumber] = useState("");
+  //@ts-ignore
   const handleNumberChange = (event) => {
     setNumber(event.target.value);
   };
 
   const [verifyState, setVerifyState] = useState("");
   const checkReviewerId = async () => {
-    console.log("check token:",number);
+    setVerifying(true);
+    console.log("check token:", number);
     const id = Number(number);
     const owner = await getReviewerOwner(id);
-    if(ethers.utils.getAddress(owner) == ethers.utils.getAddress(connectedAddress)){
+    if (
+      ethers.utils.getAddress(owner) ==
+      ethers.utils.getAddress(connectedAddress)
+    ) {
       setReviewerId(id);
       const info = await getReviewerInfo(id);
       setReviewerInfo(info);
@@ -76,24 +95,30 @@ export const ReportForm = () => {
     } else {
       setVerifyState(" failed");
     }
-  }
+
+    setVerifying(false);
+  };
 
   const mint = async () => {
-    try{
+    setMinting(true);
+    try {
       console.log("mint", reviewerId, datasetId, reportUri);
-      await mintReport(reviewerId, Number(datasetId),reportUri);
+      await mintReport(reviewerId, Number(datasetId), reportUri);
+      setMinting(false);
       setUserState("completed");
+
       clearReportCache();
-    }catch(errro){
-      console.error(errro)
+    } catch (errro) {
+      console.error(errro);
+      setMinting(false);
     }
-  }
+  };
 
   useEffect(() => {
     isWallectConnected();
     getData();
     updateUserState();
-  }, [connectedAddress,reviewerId,reportUri]);
+  }, [connectedAddress, reviewerId, reportUri]);
   return (
     <div className="h-full w-full flex flex-col ">
       <h2 className="font-bold text-5xl h-[10%] ">Submitting Report for:</h2>
@@ -104,21 +129,27 @@ export const ReportForm = () => {
             <div className="w-[50%] text-xl font-semibold ">
               Connected Reviewer:
             </div>
-            {userState=="notconnected" && (
+            {userState == "notconnected" && !verifying && (
               <div className="w-[50%] font-normal text-xl">
                 Please Connect Wallet{" "}
               </div>
             )}
-            {userState=="connected" && (
+            {userState == "connected" && !verifying && (
               <div className="w-[50%] font-normal text-xl">
-                Please Veiry your ReviwerNFT id
+                Please Verify your ReviwerNFT id
               </div>
             )}
-            {(userState=="verified" || userState =="reportReady" || userState=="completed" ) && (
-              <div className="w-[50%]  font-semibold  text-xl text-black">
-                {reviewerInfo.name}
-              </div>
+            {userState == "connected" && verifying && (
+              <div className="w-[50%] font-normal text-xl">Verifying...</div>
             )}
+            {(userState == "verified" ||
+              userState == "reportReady" ||
+              userState == "completed") &&
+              !verifying && (
+                <div className="w-[50%]  font-semibold  text-xl text-black">
+                  {reviewerInfo.name}
+                </div>
+              )}
           </div>
           <div className="w-full flex">
             <div className="w-[50%] text-xl font-semibold ">Dataset NFT:</div>
@@ -128,23 +159,31 @@ export const ReportForm = () => {
           </div>
           <div className="w-full flex">
             <div className="w-[50%] text-xl font-semibold ">Reviewer NFT:</div>
-            {userState=="notconnected" && (
+            {userState == "notconnected" && (
               <div className="w-[50%] font-normal text-xl">
                 Please Connect Wallet
               </div>
             )}
-            {(userState=="connected" ) && (
+            {userState == "connected" && (
               <div className="w-[50%] font-normal font-semibold text-xl text-blue-600">
-                <input type="number" value={number} onChange={handleNumberChange} 
-                  className="w-16 p-2 border border-gray-300 shadow" 
+                <input
+                  type="number"
+                  value={number}
+                  onChange={handleNumberChange}
+                  className="w-16 p-2 border border-gray-300 shadow"
                 />
-                <button onClick={checkReviewerId} className="mt-2 border-2 px-3 border-black rounded-xl bg-uploadLight font-semibold text-xl">
-                   verify id
+                <button
+                  onClick={checkReviewerId}
+                  className="mt-2 ml-3 border-2 px-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
+                >
+                  verify id
                 </button>
                 {verifyState}
               </div>
             )}
-            {(userState=="verified" || userState =="reportReady" || userState=="completed" ) && (
+            {(userState == "verified" ||
+              userState == "reportReady" ||
+              userState == "completed") && (
               <div className="w-[50%] font-normal font-semibold text-xl text-blue-600">
                 #{reviewerId} {verifyState}
               </div>
@@ -157,18 +196,17 @@ export const ReportForm = () => {
             onChange={selectFile}
             accept=".pdf"
           />
-          {(userState=="verified" || userState=="reportReady") ? (
+          {userState == "verified" || userState == "reportReady" ? (
             <button
               onClick={() => fileElement.current?.click()}
               className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
             >
               Upload The Report
             </button>
-          ):(
+          ) : (
             <button className="mt-10 border-2 px-4 py-2 border-black rounded-xl bg-gray-300 font-semibold text-xl">
               Upload The Report
             </button>
-
           )}
 
           <div className="w-full flex gap-10 my-10">
@@ -177,22 +215,30 @@ export const ReportForm = () => {
               {currentFile?.name}
             </div>
           </div>
-          {userState=="reportReady" && (
-           <button 
-            onClick={mint}
-            className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
+          {userState == "reportReady" && (
+            <button
+              onClick={mint}
+              className="mt-10 border-2 px-3 py-3 border-black rounded-xl bg-uploadLight font-semibold text-xl"
             >
-            Submit Report
-           </button>
-          )}
-          {(userState=="connected" || userState=="notconnected" || userState=="verified" )&& (
-            <button className="mt-10 border-2 px-4 py-2 border-black rounded-xl bg-gray-300 font-semibold text-xl">
-            Submit Report
+              Submit Report
             </button>
-            )}
-          {userState=="completed" && (
+          )}
+          {(userState == "connected" ||
+            userState == "notconnected" ||
+            userState == "verified") && (
+            <button className="mt-10 border-2 px-4 py-2 border-black rounded-xl bg-gray-300 font-semibold text-xl">
+              Submit Report
+            </button>
+          )}
+          {minting && (
+            <div className="w-[50%] font-normal text-xl mt-3 pl-2">
+              Minting...
+            </div>
+          )}
+
+          {userState == "completed" && (
             <div className="font-normal text-xl text-blue-600 underline">
-            Complete! Thank you for your subbmit.
+              Complete! Thank you for your submition.
             </div>
           )}
         </div>

@@ -100,3 +100,11 @@ export const getReportDataset = async (reportId: number) => {
   return id[0];
 };
 
+// Before calling this function, connect metamsk should be done.
+export const mintReport = async (reviewerId: number,datasetId: number, reportUri: string) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const ReportSignContract = new ethers.Contract(ReportAddr, ReportAbi, signer);
+  await ReportSignContract.functions.mintReport(reviewerId, datasetId,reportUri);
+  return;
+};

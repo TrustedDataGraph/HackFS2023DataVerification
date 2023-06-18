@@ -1,24 +1,22 @@
-import { isWallectConnected } from "@modules/Shared/Services";
+import { getDatasetInfo, isWallectConnected } from "@modules/Shared/Services";
 import { useGlobalState } from "@modules/Shared/store";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { getDataset } from "@modules/Shared/Services";
+import { storeFiles } from "@modules/Shared/Services/Storage";
 
 export const ReportForm = () => {
   const fileElement = useRef<HTMLInputElement>(null);
   const [currentFile, setCurrentFile] = useState<File>();
   const [data, setData] = useState<any>({});
-  let { id } = useParams();
-
+  const { datasetId } = useParams();
   const [connectedAddress] = useGlobalState("connectedAddress");
 
+  let  reportUri = "";
+
   const getData = async () => {
-    let data1 = await getDataset(Number(id));
 
     try {
-      let res1 = await fetch(data1[0]);
-
-      let info1 = await res1.json();
+      const info1 = await getDatasetInfo (Number(datasetId));
       console.log(info1);
       setData(info1);
       console.log(info1);
@@ -28,10 +26,12 @@ export const ReportForm = () => {
   };
 
   //get uploaded file
-  const selectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const selectFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     const selectedFiles = files as FileList;
     setCurrentFile(selectedFiles?.[0]);
+    reportUri = await storeFiles(selectedFiles) as string;
+    console.log(reportUri);
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const ReportForm = () => {
           <div className="w-full flex">
             <div className="w-[50%] text-xl font-semibold ">Dataset NFT:</div>
             <div className="w-[50%] font-semibold text-xl  text-blue-600">
-              #{id}
+              #{datasetId}
             </div>
           </div>
           <div className="w-full flex">

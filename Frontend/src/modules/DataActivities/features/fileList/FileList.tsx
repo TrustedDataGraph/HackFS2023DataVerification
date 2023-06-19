@@ -85,12 +85,12 @@ export const FileList = ({ data }: IProps) => {
                 <a
                   href={
                     data.source == "Filecoin"
-                      ? `http://34.66.50.93/ipfs/${
+                      ? `https://mysaturn.trusteddatagraph.dev/ipfs/${
                           item.payload_cid
                         }?format=car&protocols=graphsync&providers=${
                           item.miner_multi_addrs.split(" ")[0]
                         }/p2p/${item.miner_peer}`
-                      : `http://34.66.50.93/ipfs/${item.payload_cid}?format=car`
+                      : `https://mysaturn.trusteddatagraph.dev/ipfs/${item.payload_cid}?format=car`
                   }
                 >
                   Download
